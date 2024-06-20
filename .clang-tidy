@@ -1,0 +1,7 @@
+UseColor: true
+
+Checks: >
+    -*,
+    cppcoreguidelines-*,
+
+WarningsAsErrors: "*"
