@@ -1,0 +1,1 @@
+test --cache_test_results=no --test_summary=detailed

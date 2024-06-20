@@ -1,0 +1,30 @@
+"""Holoflow Bazel module configuration and dependencies."""
+
+module(
+    name = "holoflow",
+    version = "0.1.0",
+)
+
+# =========================================
+# Bazel module dependencies
+# =========================================
+bazel_dep(name = "rules_cc", version = "0.0.9")
+bazel_dep(name = "rules_cuda", version = "0.2.1")
+
+# See https://github.com/bazel-contrib/rules_cuda#Bzlmod
+cuda = use_extension("@rules_cuda//cuda:extensions.bzl", "toolchain")
+cuda.local_toolchain(
+    name = "local_cuda",
+    toolkit_path = "",
+)
+use_repo(cuda, "local_cuda")
+
+# =========================================
+# C++/CUDA dependencies
+# =========================================
+bazel_dep(name = "googletest", version = "1.14.0")
+bazel_dep(name = "google_benchmark", version = "1.8.4")
+
+# =========================================
+# Dev Dependencies
+# =========================================

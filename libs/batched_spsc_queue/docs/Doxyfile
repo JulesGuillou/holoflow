@@ -1,0 +1,29 @@
+# Project-related settings
+PROJECT_NAME           = "Batched SPSC Queue"
+PROJECT_BRIEF          = "A batched single-producer single-consumer queue implementation"
+OUTPUT_DIRECTORY       = bazel-bin/libs/batched_spsc_queue/docs
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+
+# Input settings
+INPUT                  = libs/batched_spsc_queue/include libs/batched_spsc_queue/src
+RECURSIVE              = YES
+
+# Example settings
+EXAMPLE_PATH           = libs/batched_spsc_queue/examples
+EXAMPLE_PATTERNS       = *.cc
+
+# Documentation settings
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_LOCAL_METHODS  = YES
+
+# HTML settings
+HTML_OUTPUT            = html
+HTML_EXTRA_STYLESHEET  = docs/doxygen-awesome.css
+GENERATE_TREEVIEW      = YES
+DISABLE_INDEX          = NO
+FULL_SIDEBAR           = NO
+HTML_COLORSTYLE        = LIGHT
