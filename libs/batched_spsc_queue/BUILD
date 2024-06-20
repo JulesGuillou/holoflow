@@ -10,8 +10,18 @@ cc_library(
 )
 
 cc_test(
-    name = "batched_spsc_queue_tests",
-    srcs = glob(["tests/*.cc"]),
+    name = "capacity_tests",
+    srcs = ["tests/capacity_tests.cc"],
+    copts = common_copts(),
+    deps = [
+        ":batched_spsc_queue",
+        "@googletest//:gtest_main",
+    ],
+)
+
+cc_test(
+    name = "multithread_tests",
+    srcs = ["tests/multithread_tests.cc"],
     copts = common_copts(),
     deps = [
         ":batched_spsc_queue",

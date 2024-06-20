@@ -3,6 +3,8 @@
 #include <atomic>
 #include <cstddef>
 #include <cstdint>
+#include <optional>
+#include <span>
 
 #ifndef CACHE_LINE_SIZE
 #define CACHE_LINE_SIZE 128
@@ -25,8 +27,10 @@ namespace dh {
  *       This includes:
  *       - Using the queue with multiple threads for enqueuing.
  *       - Using the queue with multiple threads for dequeuing.
- *       - Using the queue outside of a single-producer single-consumer (SPSC)
- * context.
+ *       - Writing more than enqueue_batch_size elements in a single batch.
+ *       - Writing less than dequeue_batch_size elements in a single batch.
+ *       - Reading more than dequeue_batch_size elements in a single batch.
+ *       - Reading less than enqueue_batch_size elements in a single batch.
  *
  * @example examples/minimal_example.cc
  * This is an example of how to use the queue is a very simple context.
@@ -56,62 +60,62 @@ public:
    *       This includes:
    *       - nb_slots not being a multiple of enqueue_batch_size or
    * dequeue_batch_size.
+   *      - buffer not being large enough to contain nb_slots * element_size
    */
-  BatchedSPSCQueue(size_t nb_slots, size_t enqueue_batch_size, size_t dequeue_batch_size,
-        size_t element_size, uint8_t *buffer);
+  BatchedSPSCQueue(size_t nb_slots, size_t enqueue_batch_size,
+                   size_t dequeue_batch_size, size_t element_size,
+                   std::span<uint8_t> buffer);
 
   /**
-   * @brief Returns a pointer to the next available slot for writing.
+   * @brief Returns a span containing the buffer where the user can write data.
    *
-   * This method provides a pointer to the memory location where the next
-   * element(s) can be written. The caller is responsible for ensuring that the
-   * write does not exceed the available space. If the queue is full, this
-   * method returns nullptr.
+   * This method provides a span where the next element(s) can be written. The
+   * caller is responsible for ensuring that the write does not exceed the
+   * available space. If the queue is full, this method returns std::nullopt.
    *
-   * @return A pointer to the next available slot for writing, or nullptr if the
-   * queue is full.
+   * @return A span containing the buffer where the user can write data, or
+   * std::nullopt if the queue is full.
    *
-   * @note The pointer returned by this method is invalidated after calling
+   * @note The span returned by this method is invalidated after calling
    * commit_write().
    */
-  uint8_t *write_ptr();
+  std::optional<std::span<uint8_t>> write_ptr();
 
   /**
    * @brief Commits the write operation.
    *
    * This method updates the write index after writing data to the buffer. It
-   * should be called after writing data to the location returned by
+   * should be called after writing data to the span returned by
    * write_ptr().
    *
-   * @note The pointer returned by write_ptr() is invalidated after calling this
+   * @note The span returned by write_ptr() is invalidated after calling this
    * method.
    */
   void commit_write();
 
   /**
-   * @brief Returns a pointer to the next available slot for reading.
+   * @brief Returns a span containing the buffer where the user can read data.
    *
-   * This method provides a pointer to the memory location where the next
-   * element(s) can be read. The caller is responsible for ensuring that the
-   * read does not exceed the available data. If the queue is empty, this method
-   * returns nullptr.
+   * This method provides a span where the next element(s) can be read. The
+   * caller is responsible for ensuring that the read does not exceed the
+   * available space. If the queue is empty, this method returns std::nullopt.
    *
-   * @return A pointer to the next available slot for reading, or nullptr if the
-   * queue is empty.
+   * @return A span containing the buffer where the user can read data, or
+   * std::nullopt if the queue is empty.
    *
-   * @note The pointer returned by this method is invalidated after calling
+   * @note The span returned by this method is invalidated after calling
    * commit_read().
    */
-  uint8_t *read_ptr();
+  std::optional<std::span<uint8_t>> read_ptr();
 
   /**
    * @brief Commits the read operation.
    *
    * This method updates the read index after reading data from the buffer. It
-   * should be called after reading data from the location returned by
+   * should be called after reading data from the span returned by
    * read_ptr().
    *
-   * @note The pointer returned by read_ptr() is invalidated after calling this
+   * @note The span returned by read_ptr() is invalidated after calling this
    * method.
    */
   void commit_read();
@@ -182,7 +186,7 @@ private:
   size_t element_size_;
 
   /// A pre-allocated memory block for storing elements.
-  uint8_t *buffer_;
+  std::span<uint8_t> buffer_;
 
   /// The current write index.
   alignas(CACHE_LINE_SIZE) std::atomic<size_t> write_idx_;
