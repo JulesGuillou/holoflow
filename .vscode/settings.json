@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "all",
-        "ide"
+        "ide",
+        "batched_spsc_queue"
     ]
 }
