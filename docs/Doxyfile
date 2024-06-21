@@ -1,16 +1,16 @@
 # Project-related settings
-PROJECT_NAME           = "Batched SPSC Queue"
-PROJECT_BRIEF          = "A batched single-producer single-consumer queue implementation"
-OUTPUT_DIRECTORY       = bazel-bin/libs/batched_spsc_queue/docs
+PROJECT_NAME           = "Holoflow"
+PROJECT_BRIEF          = "A image processing library."
+OUTPUT_DIRECTORY       = bazel-bin/docs
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO
 
 # Input settings
-INPUT                  = libs/batched_spsc_queue/include libs/batched_spsc_queue/src
+INPUT                  = libs apps
 RECURSIVE              = YES
 
 # Example settings
-EXAMPLE_PATH           = libs/batched_spsc_queue/examples
+EXAMPLE_PATH           = examples
 EXAMPLE_PATTERNS       = *.cc
 
 # Documentation settings
