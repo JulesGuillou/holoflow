@@ -2,7 +2,8 @@
 PROJECT_NAME           = "Holoflow"
 PROJECT_BRIEF          = "A image processing library."
 OUTPUT_DIRECTORY       = bazel-bin/docs
-GENERATE_HTML          = YES
+GENERATE_HTML          = NO
+GENERATE_XML           = YES
 GENERATE_LATEX         = NO
 
 # Input settings
@@ -27,3 +28,6 @@ GENERATE_TREEVIEW      = YES
 DISABLE_INDEX          = NO
 FULL_SIDEBAR           = NO
 HTML_COLORSTYLE        = LIGHT
+
+# XML settings
+XML_OUTPUT             = xml
