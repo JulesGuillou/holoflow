@@ -31,12 +31,6 @@ namespace dh {
  *       - Writing less than dequeue_batch_size elements in a single batch.
  *       - Reading more than dequeue_batch_size elements in a single batch.
  *       - Reading less than enqueue_batch_size elements in a single batch.
- *
- * @example examples/minimal_example.cc
- * This is an example of how to use the queue is a very simple context.
- *
- * @example examples/images_manipulation.cc
- * This is an example of how to use the queue as one would for image processing.
  */
 class BatchedSPSCQueue {
 public:
@@ -194,4 +188,5 @@ private:
   /// The current read index.
   alignas(CACHE_LINE_SIZE) std::atomic<size_t> read_idx_;
 };
+
 } // namespace dh
