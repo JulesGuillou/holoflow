@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; Holoflow 0.1.0 documentation</title>
+  <title>Introduction &mdash; Holoflow 0.1.0 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -16,8 +17,10 @@
         <script src="_static/doctools.js?v=9a2dae69"></script>
         <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="batched_spsc_queue library" href="batched_spsc_queue/index.html" />
+    <link rel="prev" title="Welcome to Holoflow’s documentation!" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,8 +43,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="batched_spsc_queue/index.html">batched_spsc_queue library</a></li>
 </ul>
 
@@ -59,8 +62,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Index</li>
+      <li class="breadcrumb-item active">Introduction</li>
       <li class="wy-breadcrumbs-aside">
+            <a href="_sources/introduction.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -68,44 +72,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-
-<h1 id="index">Index</h1>
-
-<div class="genindex-jumpbox">
- <a href="#D"><strong>D</strong></a>
- 
-</div>
-<h2 id="D">D</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueueE">dh::BatchedSPSCQueue (C++ class)</a>
-</li>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE">dh::BatchedSPSCQueue::BatchedSPSCQueue (C++ function)</a>
-</li>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue11commit_readEv">dh::BatchedSPSCQueue::commit_read (C++ function)</a>
-</li>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv">dh::BatchedSPSCQueue::commit_write (C++ function)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue4fillEv">dh::BatchedSPSCQueue::fill (C++ function)</a>
-</li>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv">dh::BatchedSPSCQueue::read_ptr (C++ function)</a>
-</li>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue5resetEv">dh::BatchedSPSCQueue::reset (C++ function)</a>
-</li>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue4sizeEv">dh::BatchedSPSCQueue::size (C++ function)</a>
-</li>
-      <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv">dh::BatchedSPSCQueue::write_ptr (C++ function)</a>
-</li>
-  </ul></td>
-</tr></table>
-
+  <section id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading"></a></h1>
+<p>Welcome to the Holoflow project documentation. This project aims to provide an
+abstraction layer for signal processing model. It provides the user a way to
+describe the signal processing model as a tree where nodes are signal processing
+functions (computations) and edges are data dependencies. The user can then
+execute the model without worrying about how to implement the data flow.</p>
+<p>The project is divided in several libraries:</p>
+<ul class="simple">
+<li><p><cite>holoflow</cite>: The core library that provides the abstraction layer for signal
+processing models.</p></li>
+<li><p><cite>batched_spsc_queue</cite>: A lock-free, single-producer, single-consumer queue
+that supports batched operations.</p></li>
+</ul>
+</section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Holoflow’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="batched_spsc_queue/index.html" class="btn btn-neutral float-right" title="batched_spsc_queue library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

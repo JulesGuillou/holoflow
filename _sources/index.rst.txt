@@ -10,7 +10,8 @@ Welcome to Holoflow's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-
+   introduction
+   batched_spsc_queue/index
 
 Indices and tables
 ==================
@@ -19,4 +20,4 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
-.. doxygenindex::
+
