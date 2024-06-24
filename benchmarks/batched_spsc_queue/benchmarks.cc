@@ -19,13 +19,12 @@ constexpr size_t DEQUEUE_BYTES = DEQUEUE_BATCH_SIZE * ELEMENT_SIZE;
 
 static void BM_Enqueue_NoMemoryTransfer(benchmark::State &state) {
   std::vector<uint8_t> buffer(BUFFER_SIZE);
-  std::span<uint8_t> buffer_span(buffer);
   BatchedSPSCQueue queue(NB_SLOTS, ENQUEUE_BATCH_SIZE, DEQUEUE_BATCH_SIZE,
-                         ELEMENT_SIZE, buffer_span);
+                         ELEMENT_SIZE, buffer.data());
 
   for (auto _ : state) {
     auto batch = queue.write_ptr();
-    if (!batch.has_value()) {
+    if (!batch) {
       queue.reset();
       batch = queue.write_ptr();
     }
@@ -43,15 +42,14 @@ static void BM_Enqueue_NoMemoryTransfer(benchmark::State &state) {
 
 static void BM_Dequeue_NoMemoryTransfer(benchmark::State &state) {
   std::vector<uint8_t> buffer(BUFFER_SIZE);
-  std::span<uint8_t> buffer_span(buffer);
   BatchedSPSCQueue queue(NB_SLOTS, ENQUEUE_BATCH_SIZE, DEQUEUE_BATCH_SIZE,
-                         ELEMENT_SIZE, buffer_span);
+                         ELEMENT_SIZE, buffer.data());
 
   queue.fill();
 
   for (auto _ : state) {
     auto batch = queue.read_ptr();
-    if (!batch.has_value()) {
+    if (!batch) {
       queue.fill();
       batch = queue.read_ptr();
     }
@@ -69,9 +67,8 @@ static void BM_Dequeue_NoMemoryTransfer(benchmark::State &state) {
 
 static void BM_Enqueue_WithMemoryTransfer(benchmark::State &state) {
   std::vector<uint8_t> buffer(BUFFER_SIZE);
-  std::span<uint8_t> buffer_span(buffer);
   BatchedSPSCQueue queue(NB_SLOTS, ENQUEUE_BATCH_SIZE, DEQUEUE_BATCH_SIZE,
-                         ELEMENT_SIZE, buffer_span);
+                         ELEMENT_SIZE, buffer.data());
 
   std::array<uint8_t, ENQUEUE_BATCH_SIZE * ELEMENT_SIZE> source = {0};
 
@@ -80,12 +77,12 @@ static void BM_Enqueue_WithMemoryTransfer(benchmark::State &state) {
 
   for (auto _ : state) {
     auto batch = queue.write_ptr();
-    if (!batch.has_value()) {
+    if (!batch) {
       queue.reset();
       batch = queue.write_ptr();
     }
 
-    std::copy(source.begin(), source.end(), batch.value().begin());
+    std::copy(source.begin(), source.end(), batch);
     queue.commit_write();
   }
 
@@ -99,9 +96,8 @@ static void BM_Enqueue_WithMemoryTransfer(benchmark::State &state) {
 
 static void BM_Dequeue_WithMemoryTransfer(benchmark::State &state) {
   std::vector<uint8_t> buffer(BUFFER_SIZE);
-  std::span<uint8_t> buffer_span(buffer);
   BatchedSPSCQueue queue(NB_SLOTS, ENQUEUE_BATCH_SIZE, DEQUEUE_BATCH_SIZE,
-                         ELEMENT_SIZE, buffer_span);
+                         ELEMENT_SIZE, buffer.data());
 
   std::array<uint8_t, DEQUEUE_BATCH_SIZE * ELEMENT_SIZE> dest = {0};
   queue.fill();
@@ -111,12 +107,12 @@ static void BM_Dequeue_WithMemoryTransfer(benchmark::State &state) {
 
   for (auto _ : state) {
     auto batch = queue.read_ptr();
-    if (!batch.has_value()) {
+    if (!batch) {
       queue.fill();
       batch = queue.read_ptr();
     }
 
-    std::copy(batch.value().begin(), batch.value().end(), dest.begin());
+    std::copy(batch, batch + ENQUEUE_BYTES, dest.begin());
     queue.commit_read();
   }
 

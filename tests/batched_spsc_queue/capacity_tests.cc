@@ -24,14 +24,13 @@ TEST_P(BatchedSPSCQueueCapacityTest, Capacity_Is_Respected) {
   size_t element_size = sizeof(uint8_t);
   size_t buffer_size = nb_slots * element_size;
   std::vector<uint8_t> buffer(buffer_size);
-  std::span<uint8_t> buffer_span(buffer);
 
   // We loop for capacity iteration to test all possible internal shifts of the
   // read/write indexes. We loop X10 just to be sure :)
   for (size_t i = 0; i < nb_slots * 10; i++) {
     // Create the queue.
     BatchedSPSCQueue queue(nb_slots, enqueue_batch_size, dequeue_batch_size,
-                           element_size, buffer_span);
+                           element_size, buffer.data());
     // Enqueue-Dequeue i elements to shift internal read/write indexes by i.
     // To make sure one can dequeue everything, we have to enqueue
     // dequeue_batch_size times and dequeue enqueue_batch_size times. (n * m) =
@@ -40,13 +39,13 @@ TEST_P(BatchedSPSCQueueCapacityTest, Capacity_Is_Respected) {
     for (size_t j = 0; j < i; j++) {
       // Enqueues.
       for (size_t k = 0; k < dequeue_batch_size; k++) {
-        ASSERT_TRUE(queue.write_ptr().has_value());
+        ASSERT_TRUE(queue.write_ptr());
         queue.commit_write();
       }
 
       // Dequeues.
       for (size_t k = 0; k < enqueue_batch_size; k++) {
-        ASSERT_TRUE(queue.read_ptr().has_value());
+        ASSERT_TRUE(queue.read_ptr());
         queue.commit_read();
       }
     }
@@ -59,12 +58,12 @@ TEST_P(BatchedSPSCQueueCapacityTest, Capacity_Is_Respected) {
     // That is (nb_slots - enqueue_batch_size) / enqueue_batch_size times.
     size_t nb_enqueues = (nb_slots - enqueue_batch_size) / enqueue_batch_size;
     for (size_t j = 0; j < nb_enqueues; j++) {
-      ASSERT_TRUE(queue.write_ptr().has_value());
+      ASSERT_TRUE(queue.write_ptr());
       queue.commit_write();
     }
 
     // The queue should be full now.
-    ASSERT_FALSE(queue.write_ptr().has_value());
+    ASSERT_FALSE(queue.write_ptr());
 
     // A total of nb_enqueues * enqueue_batch_size elements have been enqueued.
     // One should be able to dequeue nb_enqueues * enqueue_batch_size elements.
@@ -72,12 +71,12 @@ TEST_P(BatchedSPSCQueueCapacityTest, Capacity_Is_Respected) {
     size_t nb_dequeues =
         (nb_enqueues * enqueue_batch_size) / dequeue_batch_size;
     for (size_t j = 0; j < nb_dequeues; j++) {
-      ASSERT_TRUE(queue.read_ptr().has_value());
+      ASSERT_TRUE(queue.read_ptr());
       queue.commit_read();
     }
 
     // The queue should be empty now.
-    ASSERT_FALSE(queue.read_ptr().has_value());
+    ASSERT_FALSE(queue.read_ptr());
   }
 }
 

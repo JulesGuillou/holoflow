@@ -22,9 +22,8 @@ TEST_P(BatchedSPSCQueueMultiThreadingTest, MT) {
   size_t element_size = sizeof(uint8_t);
   size_t buffer_size = nb_slots * element_size;
   std::vector<uint8_t> buffer(buffer_size);
-  std::span<uint8_t> buffer_span(buffer);
   BatchedSPSCQueue queue(nb_slots, enqueue_batch_size, dequeue_batch_size,
-                         element_size, buffer_span);
+                         element_size, buffer.data());
 
   // Enqueue thread.
   std::thread enqueue_thread(
@@ -35,13 +34,13 @@ TEST_P(BatchedSPSCQueueMultiThreadingTest, MT) {
         // Loop for the specified duration.
         while (std::chrono::steady_clock::now() - start_time < test_duration) {
           // Try to get a write pointer.
-          auto write_span = queue.write_ptr();
-          if (!write_span.has_value())
+          auto write_ptr = queue.write_ptr();
+          if (!write_ptr)
             continue;
 
           // Write data to the buffer.
           for (size_t j = 0; j < enqueue_batch_size; j++)
-            write_span.value()[j] = data++;
+            write_ptr[j] = data++;
 
           // Commit the write.
           queue.commit_write();
@@ -62,13 +61,13 @@ TEST_P(BatchedSPSCQueueMultiThreadingTest, MT) {
         while (std::chrono::steady_clock::now() - start_time < test_duration) {
 
           // Try to get a read pointer.
-          auto read_span = queue.read_ptr();
-          if (!read_span.has_value())
+          auto read_ptr = queue.read_ptr();
+          if (!read_ptr)
             continue;
 
           // Check the data.
           for (size_t j = 0; j < dequeue_batch_size; j++)
-            ASSERT_EQ(read_span.value()[j], expected++);
+            ASSERT_EQ(read_ptr[j], expected++);
 
           // Commit the read.
           queue.commit_read();

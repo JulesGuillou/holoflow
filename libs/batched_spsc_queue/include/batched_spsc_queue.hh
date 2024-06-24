@@ -13,156 +13,188 @@
 namespace dh {
 /**
  * @class BatchedSPSCQueue
- * @brief A batched single-producer single-consumer (SPSC) queue implemented
- * using a circular buffer.
+ * @brief A high-performance, lock-free, single-producer single-consumer (SPSC)
+ * queue designed for batched operations.
  *
- * This class provides a high-performance queue that allows batching of enqueue
- * and dequeue operations. It is designed for scenarios where a single producer
- * thread enqueues data and a single consumer thread dequeues data. The queue
- * uses a pre-allocated memory buffer to store elements, and it supports batched
- * operations to improve performance. Sequential elements in a batch are
- * guaranteed to be sequential in memory.
+ * This queue allows the producer to enqueue a batch of elements and the
+ * consumer to dequeue a batch of elements, improving throughput by reducing the
+ * frequency of synchronization operations.
  *
- * @note Not meeting the specified conditions results in undefined behavior.
- *       This includes:
- *       - Using the queue with multiple threads for enqueuing.
- *       - Using the queue with multiple threads for dequeuing.
- *       - Writing more than enqueue_batch_size elements in a single batch.
- *       - Writing less than dequeue_batch_size elements in a single batch.
- *       - Reading more than dequeue_batch_size elements in a single batch.
- *       - Reading less than enqueue_batch_size elements in a single batch.
+ * The queue guarantees that a batch of elements is always contiguous in memory,
+ * which means the queue can be used to extend a batch size in a context of
+ * tensor processing, for example.
+ * 
+ * This queue implementation is based on a acquire/commit pattern. The producer
+ * acquires a pointer to the next batch of elements to be written, writes the
+ * data, and then commits the write operation. The consumer acquires a pointer to
+ * the next batch of elements to be read, reads the data, and then commits the
+ * read operation. This pattern allows the producer and consumer to work directly
+ * on the buffer without having to allocate memory for each batch or to copy data
+ * between buffers.
+ *
+ * @note The actual capacity of the queue is `nb_slots - enqueue_batch_size`.
+ * This is because circular buffer needs to keep one slot empty to distinguish
+ * between full and empty states. Given that `nb_slots` must be a multiple of
+ * `enqueue_batch_size`, the actual capacity is not `nb_slots - 1` but
+ * `nb_slots - enqueue_batch_size`.
+ *
+ * @warning The queue is subject to the following constraints, if not respected,
+ * the behavior is undefined:
+ * - The number of slots must be a multiple of the enqueue and dequeue batch
+ * sizes.
+ * - The buffer must be pre-allocated with a size of at least
+ * `nb_slots * element_size`
+ * - A single thread must be used for enqueue operations.
+ * - A single thread must be used for dequeue operations.
+ * - Each call to commit_write() must be preceded by a call to write_ptr().
+ * - The whole batch must be written before committing the write operation.
+ * - The pointer returned by write_ptr() must not be used after commit_write()
+ * has been called.
+ * - Each call to commit_read() must be preceded by a call to read_ptr().
+ * - The pointer returned by read_ptr() must not be used after commit_read() has
+ * been called.
+ *
+ * @warning The methods `reset()` and `fill()` are not thread-safe and should
+ * not be called in production code. They are provided for testing and
+ * benchmarking purposes only.
+ *
+ * The following example demonstrates how to use the `BatchedSPSCQueue` class:
+ * @include examples/batched_spsc_queue/multi_thread_example.cc
  */
 class BatchedSPSCQueue {
 public:
   /**
-   * @brief Constructs a BatchedSPSCQueue with the specified parameters.
+   * @brief Constructs a new `BatchedSPSCQueue` object.
    *
-   * @param nb_slots The number of slots in the circular buffer. Note that not
-   * all slots can be used simultaneously. The actual capacity of the queue is
-   * nb_slots - enqueue_batch_size to avoid ambiguity between full and empty
-   * states. Additionally, nb_slots must be a multiple of both
-   * enqueue_batch_size and dequeue_batch_size.
-   * @param enqueue_batch_size The number of elements that can be
-   * enqueued in a single batch.
-   * @param dequeue_batch_size The number of elements that can be
-   * dequeued in a single batch.
+   * @param nb_slots The number of slots in the circular buffer. Must be a
+   * multiple of `enqueue_batch_size` and `dequeue_batch_size`.
+   *
+   * @param enqueue_batch_size The number of elements that are enqueued in a
+   * single batch.
+   *
+   * @param dequeue_batch_size The number of elements that are dequeued in a
+   * single batch.
+   *
    * @param element_size The size of each element in bytes.
-   * @param buffer A pre-allocated memory block that is large enough to contain
-   * nb_slots * element_size bytes.
    *
-   * @note Not meeting the specified conditions results in undefined behavior.
-   *       This includes:
-   *       - nb_slots not being a multiple of enqueue_batch_size or
-   * dequeue_batch_size.
-   *      - buffer not being large enough to contain nb_slots * element_size
+   * @param buffer A pre-allocated memory block for storing elements. The buffer
+   * must be allocated with a size of at least `nb_slots * element_size` bytes.
+   *
+   * @note The actual capacity of the queue is `nb_slots - enqueue_batch_size`.
+   *
+   * @warning This constructor will lead to undefined behavior if the
+   * following constraints are not respected:
+   * - The number of slots must be a multiple of the enqueue and dequeue batch
+   * sizes.
+   * - The buffer must be pre-allocated with a size of at least
+   * `nb_slots * element_size`
    */
   BatchedSPSCQueue(size_t nb_slots, size_t enqueue_batch_size,
                    size_t dequeue_batch_size, size_t element_size,
-                   std::span<uint8_t> buffer);
+                   uint8_t *buffer);
 
   /**
-   * @brief Returns a span containing the buffer where the user can write data.
+   * @brief Returns a pointer to the next batch of elements to be written.
    *
-   * This method provides a span where the next element(s) can be written. The
-   * caller is responsible for ensuring that the write does not exceed the
-   * available space. If the queue is full, this method returns std::nullopt.
+   * @return A pointer to the next batch of elements to be written, if the
+   * queue has enough capacity. Otherwise, returns `nullptr`.
    *
-   * @return A span containing the buffer where the user can write data, or
-   * std::nullopt if the queue is full.
+   * @note Not calling `commit_write()` after calling this method does not lead
+   * to undefined behavior. This can be leveraged to cancel the enqueue
+   * operation.
    *
-   * @note The span returned by this method is invalidated after calling
-   * commit_write().
+   * @warning This method will lead to undefined behavior if the following
+   * constraints are not respected:
+   * - The pointer returned by this method must not be used after calling
+   * `commit_write()`.
+   * - The whole batch must be written before committing the write operation.
    */
-  std::optional<std::span<uint8_t>> write_ptr();
+  uint8_t *write_ptr();
 
   /**
    * @brief Commits the write operation.
    *
-   * This method updates the write index after writing data to the buffer. It
-   * should be called after writing data to the span returned by
-   * write_ptr().
-   *
-   * @note The span returned by write_ptr() is invalidated after calling this
+   * @warning This method will lead to undefined behavior if the following
+   * constraints are not respected:
+   * - Each call to this method must be preceded by a successful call to
+   * `write_ptr()`.
+   * - The pointer returned by `write_ptr()` must not be used after calling this
    * method.
+   * - The whole batch must be written before committing the write operation.
    */
   void commit_write();
 
   /**
-   * @brief Returns a span containing the buffer where the user can read data.
+   * @brief Returns a pointer to the next batch of elements to be read.
    *
-   * This method provides a span where the next element(s) can be read. The
-   * caller is responsible for ensuring that the read does not exceed the
-   * available space. If the queue is empty, this method returns std::nullopt.
+   * @return A pointer to the next batch of elements to be read, if the queue
+   * has enough elements. Otherwise, returns `nullptr`.
    *
-   * @return A span containing the buffer where the user can read data, or
-   * std::nullopt if the queue is empty.
+   * @note Not calling `commit_read()` after calling this method does not lead
+   * to undefined behavior. This can be leveraged to cancel the dequeue
+   * operation.
    *
-   * @note The span returned by this method is invalidated after calling
-   * commit_read().
+   * @warning This method will lead to undefined behavior if the following
+   * constraints are not respected:
+   * - The pointer returned by this method must not be used after calling
+   * `commit_read()`.
    */
-  std::optional<std::span<uint8_t>> read_ptr();
+  uint8_t *read_ptr();
 
   /**
    * @brief Commits the read operation.
    *
-   * This method updates the read index after reading data from the buffer. It
-   * should be called after reading data from the span returned by
-   * read_ptr().
-   *
-   * @note The span returned by read_ptr() is invalidated after calling this
+   * @warning This method will lead to undefined behavior if the following
+   * constraints are not respected:
+   * - Each call to this method must be preceded by a successful call to
+   * `read_ptr()`.
+   * - The pointer returned by `read_ptr()` must not be used after calling this
    * method.
    */
   void commit_read();
 
   /**
-   * @brief Returns the number of elements currently in the queue.
+   * @brief Returns the number of elements in the queue.
    *
-   * This method provides the current size of the queue, i.e., the number of
-   * elements that have been enqueued but not yet dequeued.
-   *
-   * @return The number of elements currently in the queue.
+   * @return The number of elements in the queue.
    */
   size_t size();
 
   /**
    * @brief Resets the queue.
    *
-   * This method clears the queue and resets the read and write indices. It is
-   * not thread-safe and should only be used for testing or benchmarking
-   * purposes.
+   * @warning This method is not thread-safe and should not be called in
+   * production code. It is provided for testing and benchmarking purposes
+   * only.
    */
   void reset();
 
   /**
-   * @brief Fills the queue with uninitialized data.
+   * @brief Fills the queue.
    *
-   * This method fills the queue with uninitialized data. It is not thread-safe
-   * and should only be used for testing or benchmarking purposes.
+   * @warning This method is not thread-safe and should not be called in
+   * production code. It is provided for testing and benchmarking purposes
+   * only.
    */
   void fill();
 
 private:
   /**
-   * @brief Returns the number of elements currently in the queue.
-   *
-   * This method provides the current size of the queue, i.e., the number of
-   * elements that have been enqueued but not yet dequeued.
-   *
-   * @return The number of elements currently in the queue.
-   *
-   * @note This method should only be called by the producer thread.
+   * @brief Returns the number of elements in the queue.
+   * 
+   * @warning This method is only thread-safe for the writer thread.
+   * 
+   * @return The number of elements in the queue.
    */
   size_t writer_size();
 
+
   /**
-   * @brief Returns the number of elements currently in the queue.
-   *
-   * This method provides the current size of the queue, i.e., the number of
-   * elements that have been enqueued but not yet dequeued.
-   *
-   * @return The number of elements currently in the queue.
-   *
-   * @note This method should only be called by the consumer thread.
+   * @brief Returns the number of elements in the queue.
+   * 
+   * @warning This method is only thread-safe for the reader thread.
+   * 
+   * @return The number of elements in the queue.
    */
   size_t reader_size();
 
@@ -180,7 +212,7 @@ private:
   size_t element_size_;
 
   /// A pre-allocated memory block for storing elements.
-  std::span<uint8_t> buffer_;
+  uint8_t *buffer_;
 
   /// The current write index.
   alignas(CACHE_LINE_SIZE) std::atomic<size_t> write_idx_;

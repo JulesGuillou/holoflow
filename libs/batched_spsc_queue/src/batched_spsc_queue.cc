@@ -5,20 +5,18 @@
 namespace dh {
 BatchedSPSCQueue::BatchedSPSCQueue(size_t nb_slots, size_t enqueue_batch_size,
                                    size_t dequeue_batch_size,
-                                   size_t element_size,
-                                   std::span<uint8_t> buffer)
+                                   size_t element_size, uint8_t *buffer)
     : nb_slots_(nb_slots), enqueue_batch_size_(enqueue_batch_size),
       dequeue_batch_size_(dequeue_batch_size), element_size_(element_size),
       buffer_(buffer), write_idx_(0), read_idx_(0) {}
 
-std::optional<std::span<uint8_t>> BatchedSPSCQueue::write_ptr() {
+uint8_t *BatchedSPSCQueue::write_ptr() {
   if (nb_slots_ - writer_size() < enqueue_batch_size_ + 1) {
-    return std::nullopt;
+    return nullptr;
   }
 
   size_t write_idx = write_idx_.load(std::memory_order_relaxed);
-  return buffer_.subspan(write_idx * element_size_,
-                         enqueue_batch_size_ * element_size_);
+  return buffer_ + write_idx * element_size_;
 }
 
 void BatchedSPSCQueue::commit_write() {
@@ -30,13 +28,12 @@ void BatchedSPSCQueue::commit_write() {
   write_idx_.store(next_write_idx, std::memory_order_release);
 }
 
-std::optional<std::span<uint8_t>> BatchedSPSCQueue::read_ptr() {
+uint8_t *BatchedSPSCQueue::read_ptr() {
   if (reader_size() < dequeue_batch_size_)
-    return std::nullopt;
+    return nullptr;
 
   size_t read_idx = read_idx_.load(std::memory_order_relaxed);
-  return buffer_.subspan(read_idx * element_size_,
-                         dequeue_batch_size_ * element_size_);
+  return buffer_ + read_idx * element_size_;
 }
 
 void BatchedSPSCQueue::commit_read() {
