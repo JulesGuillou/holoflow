@@ -18,6 +18,9 @@ jobs:
     - name: Test
       run: bazel test //...
 
+    - name: Clean docs directory
+      run: rm -rf bazel-bin/docs
+
     - name: Generate Doxygen documentation
       run: doxygen docs/Doxyfile
 
