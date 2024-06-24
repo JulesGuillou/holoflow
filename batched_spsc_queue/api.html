@@ -48,7 +48,7 @@
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">BatchedSPSCQueue API Documentation</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueueE"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::BatchedSPSCQueue()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tP7uint8_t"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::BatchedSPSCQueue()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::write_ptr()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::commit_write()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::read_ptr()</span></code></a></li>
@@ -94,45 +94,120 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueueE">
 <span id="_CPPv3N2dh16BatchedSPSCQueueE"></span><span id="_CPPv2N2dh16BatchedSPSCQueueE"></span><span id="dh::BatchedSPSCQueue"></span><span class="target" id="classdh_1_1BatchedSPSCQueue"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BatchedSPSCQueue</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueueE" title="Link to this definition"></a><br /></dt>
-<dd><p>A batched single-producer single-consumer (SPSC) queue implemented using a circular buffer. </p>
-<p>This class provides a high-performance queue that allows batching of enqueue and dequeue operations. It is designed for scenarios where a single producer thread enqueues data and a single consumer thread dequeues data. The queue uses a pre-allocated memory buffer to store elements, and it supports batched operations to improve performance. Sequential elements in a batch are guaranteed to be sequential in memory.</p>
+<dd><p>A high-performance, lock-free, single-producer single-consumer (SPSC) queue designed for batched operations. </p>
+<p>This queue allows the producer to enqueue a batch of elements and the consumer to dequeue a batch of elements, improving throughput by reducing the frequency of synchronization operations.</p>
+<p>The queue guarantees that a batch of elements is always contiguous in memory, which means the queue can be used to extend a batch size in a context of tensor processing, for example.</p>
+<p>This queue implementation is based on a acquire/commit pattern. The producer acquires a pointer to the next batch of elements to be written, writes the data, and then commits the write operation. The consumer acquires a pointer to the next batch of elements to be read, reads the data, and then commits the read operation. This pattern allows the producer and consumer to work directly on the buffer without having to allocate memory for each batch or to copy data between buffers.</p>
+<p>
+The following example demonstrates how to use the <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue"><span class="std std-ref"><span class="pre">BatchedSPSCQueue</span></span></a></code> class: <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;batched_spsc_queue.hh&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">nb_slots</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
+<span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">enqueue_batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span>
+<span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">dequeue_batch_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">element_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">512</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">512</span><span class="p">;</span><span class="w"> </span><span class="c1">// An image of 512x512 pixels.</span>
+<span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">buffer_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nb_slots</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">element_size</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Note: The actual capacity of the queue is nb_slots - enqueue_batch_size.</span>
+<span class="w">  </span><span class="c1">// In this example, the queue can hold 996 elements.</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">buffer</span><span class="p">(</span><span class="n">buffer_size</span><span class="p">);</span>
+<span class="w">  </span><span class="n">dh</span><span class="o">::</span><span class="n">BatchedSPSCQueue</span><span class="w"> </span><span class="n">queue</span><span class="p">(</span><span class="n">nb_slots</span><span class="p">,</span><span class="w"> </span><span class="n">enqueue_batch_size</span><span class="p">,</span><span class="w"> </span><span class="n">dequeue_batch_size</span><span class="p">,</span>
+<span class="w">                             </span><span class="n">element_size</span><span class="p">,</span><span class="w"> </span><span class="n">buffer</span><span class="p">.</span><span class="n">data</span><span class="p">());</span>
+
+<span class="w">  </span><span class="c1">// Enqueue thread.</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="w"> </span><span class="n">enqueue_thread</span><span class="p">([</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Try to get a write pointer.</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">write_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="n">write_ptr</span><span class="p">();</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">write_ptr</span><span class="p">)</span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span><span class="c1">// Queue is full.</span>
+
+<span class="w">      </span><span class="c1">// Write data to the buffer.</span>
+<span class="w">      </span><span class="n">write_ptr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">      </span><span class="n">write_ptr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">      </span><span class="c1">// ...</span>
+
+<span class="w">      </span><span class="c1">// Commit the write.</span>
+<span class="w">      </span><span class="n">queue</span><span class="p">.</span><span class="n">commit_write</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="c1">// Dequeue thread.</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="kr">thread</span><span class="w"> </span><span class="n">dequeue_thread</span><span class="p">([</span><span class="o">&amp;</span><span class="n">queue</span><span class="p">]()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="c1">// Try to get a read pointer.</span>
+<span class="w">      </span><span class="k">auto</span><span class="w"> </span><span class="n">read_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">queue</span><span class="p">.</span><span class="n">read_ptr</span><span class="p">();</span>
+<span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">read_ptr</span><span class="p">)</span>
+<span class="w">        </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span><span class="c1">// Queue is empty.</span>
+
+<span class="w">      </span><span class="c1">// Read the data from the buffer.</span>
+<span class="w">      </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_ptr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="w">      </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">data1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_ptr</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="w">      </span><span class="c1">// ...</span>
+
+<span class="w">      </span><span class="c1">// Commit the read.</span>
+<span class="w">      </span><span class="n">queue</span><span class="p">.</span><span class="n">commit_read</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">});</span>
+
+<span class="w">  </span><span class="n">enqueue_thread</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+<span class="w">  </span><span class="n">dequeue_thread</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+ </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Not meeting the specified conditions results in undefined behavior. This includes:<ul class="simple">
-<li><p>Using the queue with multiple threads for enqueuing.</p></li>
-<li><p>Using the queue with multiple threads for dequeuing.</p></li>
-<li><p>Writing more than enqueue_batch_size elements in a single batch.</p></li>
-<li><p>Writing less than dequeue_batch_size elements in a single batch.</p></li>
-<li><p>Reading more than dequeue_batch_size elements in a single batch.</p></li>
-<li><p>Reading less than enqueue_batch_size elements in a single batch. </p></li>
+<p>The actual capacity of the queue is <code class="docutils literal notranslate"><span class="pre">nb_slots</span> <span class="pre">-</span> <span class="pre">enqueue_batch_size</span></code>. This is because circular buffer needs to keep one slot empty to distinguish between full and empty states. Given that <code class="docutils literal notranslate"><span class="pre">nb_slots</span></code> must be a multiple of <code class="docutils literal notranslate"><span class="pre">enqueue_batch_size</span></code>, the actual capacity is not <code class="docutils literal notranslate"><span class="pre">nb_slots</span> <span class="pre">-</span> <span class="pre">1</span></code> but <code class="docutils literal notranslate"><span class="pre">nb_slots</span> <span class="pre">-</span> <span class="pre">enqueue_batch_size</span></code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The queue is subject to the following constraints, if not respected, the behavior is undefined:<ul class="simple">
+<li><p>The number of slots must be a multiple of the enqueue and dequeue batch sizes.</p></li>
+<li><p>The buffer must be pre-allocated with a size of at least <code class="docutils literal notranslate"><span class="pre">nb_slots</span> <span class="pre">*</span> <span class="pre">element_size</span></code></p></li>
+<li><p>A single thread must be used for enqueue operations.</p></li>
+<li><p>A single thread must be used for dequeue operations.</p></li>
+<li><p>Each call to <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"><span class="std std-ref">commit_write()</span></a> must be preceded by a call to <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a1367d5750bbbf8ac6d1a89973953f0c9"><span class="std std-ref">write_ptr()</span></a>.</p></li>
+<li><p>The whole batch must be written before committing the write operation.</p></li>
+<li><p>The pointer returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a1367d5750bbbf8ac6d1a89973953f0c9"><span class="std std-ref">write_ptr()</span></a> must not be used after <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"><span class="std std-ref">commit_write()</span></a> has been called.</p></li>
+<li><p>Each call to <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"><span class="std std-ref">commit_read()</span></a> must be preceded by a call to <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1af64d337438daf874edf04ff50f513d71"><span class="std std-ref">read_ptr()</span></a>.</p></li>
+<li><p>The pointer returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1af64d337438daf874edf04ff50f513d71"><span class="std std-ref">read_ptr()</span></a> must not be used after <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"><span class="std std-ref">commit_read()</span></a> has been called.</p></li>
 </ul>
 </p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The methods <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a7e5edb0da3c0bfc36535cda864b96402"><span class="std std-ref"><span class="pre">reset()</span></span></a></code> and <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a46aebb7a9cdeea74e5f10a2d9d3c9e46"><span class="std std-ref"><span class="pre">fill()</span></span></a></code> are not thread-safe and should not be called in production code. They are provided for testing and benchmarking purposes only.</p>
 </div>
 <div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE">
-<span id="_CPPv3N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE"></span><span id="_CPPv2N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE"></span><span id="dh::BatchedSPSCQueue::BatchedSPSCQueue__s.s.s.s.std::span:uint8_t:"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a04fedc49c23d1a2d5f2c35453bf301fa"></span><span class="sig-name descname"><span class="n"><span class="pre">BatchedSPSCQueue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_slots</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enqueue_batch_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dequeue_batch_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">element_size</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">buffer</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE" title="Link to this definition"></a><br /></dt>
-<dd><p>Constructs a <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue"><span class="std std-ref">BatchedSPSCQueue</span></a> with the specified parameters. </p>
-<p><ul class="simple">
-<li><p>buffer not being large enough to contain nb_slots * element_size </p></li>
-</ul>
-</p>
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tP7uint8_t">
+<span id="_CPPv3N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tP7uint8_t"></span><span id="_CPPv2N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tP7uint8_t"></span><span id="dh::BatchedSPSCQueue::BatchedSPSCQueue__s.s.s.s.uint8_tP"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a82027674e758f5135212bf1dd863ee9e"></span><span class="sig-name descname"><span class="n"><span class="pre">BatchedSPSCQueue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_slots</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enqueue_batch_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dequeue_batch_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">element_size</span></span>, <span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">buffer</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tP7uint8_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructs a new <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue"><span class="std std-ref"><span class="pre">BatchedSPSCQueue</span></span></a></code> object. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Not meeting the specified conditions results in undefined behavior. This includes:<ul class="simple">
-<li><p>nb_slots not being a multiple of enqueue_batch_size or dequeue_batch_size.</p></li>
+<p>The actual capacity of the queue is <code class="docutils literal notranslate"><span class="pre">nb_slots</span> <span class="pre">-</span> <span class="pre">enqueue_batch_size</span></code>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This constructor will lead to undefined behavior if the following constraints are not respected:<ul class="simple">
+<li><p>The number of slots must be a multiple of the enqueue and dequeue batch sizes.</p></li>
+<li><p>The buffer must be pre-allocated with a size of at least <code class="docutils literal notranslate"><span class="pre">nb_slots</span> <span class="pre">*</span> <span class="pre">element_size</span></code></p></li>
 </ul>
 </p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>nb_slots</strong> – The number of slots in the circular buffer. Note that not all slots can be used simultaneously. The actual capacity of the queue is nb_slots - enqueue_batch_size to avoid ambiguity between full and empty states. Additionally, nb_slots must be a multiple of both enqueue_batch_size and dequeue_batch_size. </p></li>
-<li><p><strong>enqueue_batch_size</strong> – The number of elements that can be enqueued in a single batch. </p></li>
-<li><p><strong>dequeue_batch_size</strong> – The number of elements that can be dequeued in a single batch. </p></li>
-<li><p><strong>element_size</strong> – The size of each element in bytes. </p></li>
-<li><p><strong>buffer</strong> – A pre-allocated memory block that is large enough to contain nb_slots * element_size bytes.</p></li>
+<li><p><strong>nb_slots</strong> – The number of slots in the circular buffer. Must be a multiple of <code class="docutils literal notranslate"><span class="pre">enqueue_batch_size</span></code> and <code class="docutils literal notranslate"><span class="pre">dequeue_batch_size</span></code>.</p></li>
+<li><p><strong>enqueue_batch_size</strong> – The number of elements that are enqueued in a single batch.</p></li>
+<li><p><strong>dequeue_batch_size</strong> – The number of elements that are dequeued in a single batch.</p></li>
+<li><p><strong>element_size</strong> – The size of each element in bytes.</p></li>
+<li><p><strong>buffer</strong> – A pre-allocated memory block for storing elements. The buffer must be allocated with a size of at least <code class="docutils literal notranslate"><span class="pre">nb_slots</span> <span class="pre">*</span> <span class="pre">element_size</span></code> bytes.</p></li>
 </ul>
 </dd>
 </dl>
@@ -140,16 +215,23 @@
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv">
-<span id="_CPPv3N2dh16BatchedSPSCQueue9write_ptrEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue9write_ptrEv"></span><span id="dh::BatchedSPSCQueue::write_ptr"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a650f4f0053944ec43c1187d72fb8a047"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_ptr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Returns a span containing the buffer where the user can write data. </p>
-<p>This method provides a span where the next element(s) can be written. The caller is responsible for ensuring that the write does not exceed the available space. If the queue is full, this method returns std::nullopt.</p>
+<span id="_CPPv3N2dh16BatchedSPSCQueue9write_ptrEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue9write_ptrEv"></span><span id="dh::BatchedSPSCQueue::write_ptr"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a1367d5750bbbf8ac6d1a89973953f0c9"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">write_ptr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a pointer to the next batch of elements to be written. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The span returned by this method is invalidated after calling <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"><span class="std std-ref">commit_write()</span></a>. </p>
+<p>Not calling <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"><span class="std std-ref"><span class="pre">commit_write()</span></span></a></code> after calling this method does not lead to undefined behavior. This can be leveraged to cancel the enqueue operation.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method will lead to undefined behavior if the following constraints are not respected:<ul class="simple">
+<li><p>The pointer returned by this method must not be used after calling <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"><span class="std std-ref"><span class="pre">commit_write()</span></span></a></code>.</p></li>
+<li><p>The whole batch must be written before committing the write operation. </p></li>
+</ul>
+</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A span containing the buffer where the user can write data, or std::nullopt if the queue is full.</p>
+<dd class="field-odd"><p>A pointer to the next batch of elements to be written, if the queue has enough capacity. Otherwise, returns <code class="docutils literal notranslate"><span class="pre">nullptr</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -158,25 +240,35 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv">
 <span id="_CPPv3N2dh16BatchedSPSCQueue12commit_writeEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue12commit_writeEv"></span><span id="dh::BatchedSPSCQueue::commit_write"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">commit_write</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Commits the write operation. </p>
-<p>This method updates the write index after writing data to the buffer. It should be called after writing data to the span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a650f4f0053944ec43c1187d72fb8a047"><span class="std std-ref">write_ptr()</span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a650f4f0053944ec43c1187d72fb8a047"><span class="std std-ref">write_ptr()</span></a> is invalidated after calling this method. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method will lead to undefined behavior if the following constraints are not respected:<ul class="simple">
+<li><p>Each call to this method must be preceded by a successful call to <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a1367d5750bbbf8ac6d1a89973953f0c9"><span class="std std-ref"><span class="pre">write_ptr()</span></span></a></code>.</p></li>
+<li><p>The pointer returned by <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a1367d5750bbbf8ac6d1a89973953f0c9"><span class="std std-ref"><span class="pre">write_ptr()</span></span></a></code> must not be used after calling this method.</p></li>
+<li><p>The whole batch must be written before committing the write operation. </p></li>
+</ul>
+</p>
 </div>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv">
-<span id="_CPPv3N2dh16BatchedSPSCQueue8read_ptrEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue8read_ptrEv"></span><span id="dh::BatchedSPSCQueue::read_ptr"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a06e010d1b59df7279026f4b8dba4de7f"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_ptr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Returns a span containing the buffer where the user can read data. </p>
-<p>This method provides a span where the next element(s) can be read. The caller is responsible for ensuring that the read does not exceed the available space. If the queue is empty, this method returns std::nullopt.</p>
+<span id="_CPPv3N2dh16BatchedSPSCQueue8read_ptrEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue8read_ptrEv"></span><span id="dh::BatchedSPSCQueue::read_ptr"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1af64d337438daf874edf04ff50f513d71"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">read_ptr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a pointer to the next batch of elements to be read. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The span returned by this method is invalidated after calling <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"><span class="std std-ref">commit_read()</span></a>. </p>
+<p>Not calling <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"><span class="std std-ref"><span class="pre">commit_read()</span></span></a></code> after calling this method does not lead to undefined behavior. This can be leveraged to cancel the dequeue operation.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method will lead to undefined behavior if the following constraints are not respected:<ul class="simple">
+<li><p>The pointer returned by this method must not be used after calling <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"><span class="std std-ref"><span class="pre">commit_read()</span></span></a></code>. </p></li>
+</ul>
+</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>A span containing the buffer where the user can read data, or std::nullopt if the queue is empty.</p>
+<dd class="field-odd"><p>A pointer to the next batch of elements to be read, if the queue has enough elements. Otherwise, returns <code class="docutils literal notranslate"><span class="pre">nullptr</span></code>.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -185,21 +277,23 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue11commit_readEv">
 <span id="_CPPv3N2dh16BatchedSPSCQueue11commit_readEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue11commit_readEv"></span><span id="dh::BatchedSPSCQueue::commit_read"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">commit_read</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue11commit_readEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Commits the read operation. </p>
-<p>This method updates the read index after reading data from the buffer. It should be called after reading data from the span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a06e010d1b59df7279026f4b8dba4de7f"><span class="std std-ref">read_ptr()</span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a06e010d1b59df7279026f4b8dba4de7f"><span class="std std-ref">read_ptr()</span></a> is invalidated after calling this method. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method will lead to undefined behavior if the following constraints are not respected:<ul class="simple">
+<li><p>Each call to this method must be preceded by a successful call to <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1af64d337438daf874edf04ff50f513d71"><span class="std std-ref"><span class="pre">read_ptr()</span></span></a></code>.</p></li>
+<li><p>The pointer returned by <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1af64d337438daf874edf04ff50f513d71"><span class="std std-ref"><span class="pre">read_ptr()</span></span></a></code> must not be used after calling this method. </p></li>
+</ul>
+</p>
 </div>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue4sizeEv">
 <span id="_CPPv3N2dh16BatchedSPSCQueue4sizeEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue4sizeEv"></span><span id="dh::BatchedSPSCQueue::size"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a7290364811cae0734b8507ed02da1c82"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue4sizeEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Returns the number of elements currently in the queue. </p>
-<p>This method provides the current size of the queue, i.e., the number of elements that have been enqueued but not yet dequeued.</p>
+<dd><p>Returns the number of elements in the queue. </p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>The number of elements currently in the queue. </p>
+<dd class="field-odd"><p>The number of elements in the queue. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -208,14 +302,20 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue5resetEv">
 <span id="_CPPv3N2dh16BatchedSPSCQueue5resetEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue5resetEv"></span><span id="dh::BatchedSPSCQueue::reset"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a7e5edb0da3c0bfc36535cda864b96402"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue5resetEv" title="Link to this definition"></a><br /></dt>
 <dd><p>Resets the queue. </p>
-<p>This method clears the queue and resets the read and write indices. It is not thread-safe and should only be used for testing or benchmarking purposes. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method is not thread-safe and should not be called in production code. It is provided for testing and benchmarking purposes only. </p>
+</div>
 </dd></dl>
 
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue4fillEv">
 <span id="_CPPv3N2dh16BatchedSPSCQueue4fillEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue4fillEv"></span><span id="dh::BatchedSPSCQueue::fill"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a46aebb7a9cdeea74e5f10a2d9d3c9e46"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">fill</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue4fillEv" title="Link to this definition"></a><br /></dt>
-<dd><p>Fills the queue with uninitialized data. </p>
-<p>This method fills the queue with uninitialized data. It is not thread-safe and should only be used for testing or benchmarking purposes. </p>
+<dd><p>Fills the queue. </p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method is not thread-safe and should not be called in production code. It is provided for testing and benchmarking purposes only. </p>
+</div>
 </dd></dl>
 
 </div>
