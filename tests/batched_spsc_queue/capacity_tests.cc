@@ -5,145 +5,139 @@
 #include <memory>
 
 namespace dh {
-TEST(BATCHED_SPSC_QUEUE, Capacity_Is_Respected_100_1_1_1) {
-  constexpr size_t NB_SLOTS = 100;
-  constexpr size_t ENQUEUE_BATCH_SIZE = 1;
-  constexpr size_t DEQUEUE_BATCH_SIZE = 1;
-  constexpr size_t ELEMENT_SIZE = 1;
-  constexpr size_t BUFFER_SIZE = NB_SLOTS * ELEMENT_SIZE;
+class BatchedSPSCQueueCapacityTest
+    : public ::testing::TestWithParam<std::tuple<size_t, size_t, size_t>> {};
 
-  std::vector<uint8_t> buffer(BUFFER_SIZE);
+TEST_P(BatchedSPSCQueueCapacityTest, Capacity_Is_Respected) {
+  // Test parameters.
+  auto [nb_slots, enqueue_batch_size, dequeue_batch_size] = GetParam();
+
+  // Check predicates to avoid undefined behavior as specified in the
+  // BatchedSPSCQueue documentation.
+  if (nb_slots % enqueue_batch_size != 0)
+    FAIL() << "nb_slots % enqueue_batch_size != 0";
+
+  if (nb_slots % dequeue_batch_size != 0)
+    FAIL() << "nb_slots % dequeue_batch_size != 0";
+
+  // Prepare the buffer.
+  size_t element_size = sizeof(uint8_t);
+  size_t buffer_size = nb_slots * element_size;
+  std::vector<uint8_t> buffer(buffer_size);
   std::span<uint8_t> buffer_span(buffer);
 
-  for (size_t i = 0; i < 100 * 10; i++) {
-    BatchedSPSCQueue queue(NB_SLOTS, ENQUEUE_BATCH_SIZE, DEQUEUE_BATCH_SIZE,
-                           ELEMENT_SIZE, buffer_span);
-
+  // We loop for capacity iteration to test all possible internal shifts of the
+  // read/write indexes. We loop X10 just to be sure :)
+  for (size_t i = 0; i < nb_slots * 10; i++) {
+    // Create the queue.
+    BatchedSPSCQueue queue(nb_slots, enqueue_batch_size, dequeue_batch_size,
+                           element_size, buffer_span);
     // Enqueue-Dequeue i elements to shift internal read/write indexes by i.
+    // To make sure one can dequeue everything, we have to enqueue
+    // dequeue_batch_size times and dequeue enqueue_batch_size times. (n * m) =
+    // (m * n). A better approach would be to look for the first common multiple
+    // of enqueue_batch_size and dequeue_batch_size.
     for (size_t j = 0; j < i; j++) {
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
+      // Enqueues.
+      for (size_t k = 0; k < dequeue_batch_size; k++) {
+        ASSERT_TRUE(queue.write_ptr().has_value());
+        queue.commit_write();
+      }
+
+      // Dequeues.
+      for (size_t k = 0; k < enqueue_batch_size; k++) {
+        ASSERT_TRUE(queue.read_ptr().has_value());
+        queue.commit_read();
+      }
     }
 
-    // Should be able to enqueue 99 elements.
-    for (size_t j = 0; j < 99; j++) {
+    // Queue should be empty now.
+    ASSERT_EQ(queue.size(), 0);
+
+    // The queue is now empty.
+    // One should be able to enqueue nb_slots - enqueue_batch_size elements.
+    // That is (nb_slots - enqueue_batch_size) / enqueue_batch_size times.
+    size_t nb_enqueues = (nb_slots - enqueue_batch_size) / enqueue_batch_size;
+    for (size_t j = 0; j < nb_enqueues; j++) {
       ASSERT_TRUE(queue.write_ptr().has_value());
       queue.commit_write();
     }
 
-    // Should be full now.
+    // The queue should be full now.
     ASSERT_FALSE(queue.write_ptr().has_value());
 
-    // Should be ablse to dequeue 99 elements.
-    for (size_t j = 0; j < 99; j++) {
+    // A total of nb_enqueues * enqueue_batch_size elements have been enqueued.
+    // One should be able to dequeue nb_enqueues * enqueue_batch_size elements.
+    // That is (nb_enqueues * enqueue_batch_size) / dequeue_batch_size times.
+    size_t nb_dequeues =
+        (nb_enqueues * enqueue_batch_size) / dequeue_batch_size;
+    for (size_t j = 0; j < nb_dequeues; j++) {
       ASSERT_TRUE(queue.read_ptr().has_value());
       queue.commit_read();
     }
 
-    // Should be empty now.
+    // The queue should be empty now.
     ASSERT_FALSE(queue.read_ptr().has_value());
   }
 }
 
-TEST(BATCHED_SPSC_QUEUE, Capacity_Is_Respected_300_3_2_1) {
-  constexpr size_t NB_SLOTS = 300;
-  constexpr size_t ENQUEUE_BATCH_SIZE = 3;
-  constexpr size_t DEQUEUE_BATCH_SIZE = 2;
-  constexpr size_t ELEMENT_SIZE = 1;
-  constexpr size_t BUFFER_SIZE = NB_SLOTS * ELEMENT_SIZE;
-
-  std::vector<uint8_t> buffer(BUFFER_SIZE);
-  std::span<uint8_t> buffer_span(buffer);
-
-  for (size_t i = 0; i < 300 * 10; i++) {
-    BatchedSPSCQueue queue(NB_SLOTS, ENQUEUE_BATCH_SIZE, DEQUEUE_BATCH_SIZE,
-                           ELEMENT_SIZE, buffer_span);
-
-    // Enqueue-Dequeue i elements to shift internal read/write indexes by i.
-    // In this case, one has to enqueue twice before being able to dequeue
-    // everything (three times).
-    for (size_t j = 0; j < i; j++) {
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
-    }
-
-    // Should be able to enqueue 297 elements (99 3-elements enqueue).
-    for (size_t j = 0; j < 99; j++) {
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-    }
-
-    // Should be full now.
-    ASSERT_FALSE(queue.write_ptr().has_value());
-
-    // Should be ablse to dequeue 298 elements (148 2-elements dequeue).
-    for (size_t j = 0; j < 148; j++) {
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
-    }
-
-    // Should be empty now.
-    ASSERT_FALSE(queue.read_ptr().has_value());
-  }
-}
-
-TEST(BATCHED_SPSC_QUEUE, Capacity_Is_Respected_300_2_3_1) {
-  constexpr size_t NB_SLOTS = 300;
-  constexpr size_t ENQUEUE_BATCH_SIZE = 2;
-  constexpr size_t DEQUEUE_BATCH_SIZE = 3;
-  constexpr size_t ELEMENT_SIZE = 1;
-  constexpr size_t BUFFER_SIZE = NB_SLOTS * ELEMENT_SIZE;
-
-  std::vector<uint8_t> buffer(BUFFER_SIZE);
-  std::span<uint8_t> buffer_span(buffer);
-
-  for (size_t i = 0; i < 300 * 10; i++) {
-    BatchedSPSCQueue queue(NB_SLOTS, ENQUEUE_BATCH_SIZE, DEQUEUE_BATCH_SIZE,
-                           ELEMENT_SIZE, buffer_span);
-
-    // Enqueue-Dequeue i elements to shift internal read/write indexes by i.
-    // In this case, one has to enqueue three times before being able to dequeue
-    // everything (twice).
-    for (size_t j = 0; j < i; j++) {
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
-    }
-
-    // Should be able to enqueue 298 elements (149 2-elements enqueue).
-    for (size_t j = 0; j < 149; j++) {
-      ASSERT_TRUE(queue.write_ptr().has_value());
-      queue.commit_write();
-    }
-
-    // Should be full now.
-    ASSERT_FALSE(queue.write_ptr().has_value());
-
-    // Should be ablse to dequeue 297 elements (99 3-elements dequeue).
-    for (size_t j = 0; j < 99; j++) {
-      ASSERT_TRUE(queue.read_ptr().has_value());
-      queue.commit_read();
-    }
-
-    // Should be empty now.
-    ASSERT_FALSE(queue.read_ptr().has_value());
-  }
-}
+INSTANTIATE_TEST_SUITE_P(BatchedSPSCQueueCapacityTestSuite,
+                         BatchedSPSCQueueCapacityTest,
+                         ::testing::Values(
+                             // 00
+                             std::make_tuple(100, // nb_slots
+                                             1,   // enqueue_batch_size
+                                             1),  // dequeue_batch_size
+                             // 01
+                             std::make_tuple(100, // nb_slots
+                                             1,   // enqueue_batch_size
+                                             2),  // dequeue_batch_size
+                             // 02
+                             std::make_tuple(100, // nb_slots
+                                             2,   // enqueue_batch_size
+                                             1),  // dequeue_batch_size
+                             // 03
+                             std::make_tuple(100, // nb_slots
+                                             2,   // enqueue_batch_size
+                                             2),  // dequeue_batch_size
+                             // 04
+                             std::make_tuple(102, // nb_slots
+                                             3,   // enqueue_batch_size
+                                             1),  // dequeue_batch_size
+                             // 05
+                             std::make_tuple(102, // nb_slots
+                                             1,   // enqueue_batch_size
+                                             3),  // dequeue_batch_size
+                             // 06
+                             std::make_tuple(102, // nb_slots
+                                             3,   // enqueue_batch_size
+                                             3),  // dequeue_batch_size
+                             // 07
+                             std::make_tuple(102, // nb_slots
+                                             3,   // enqueue_batch_size
+                                             2),  // dequeue_batch_size
+                             // 08
+                             std::make_tuple(102, // nb_slots
+                                             2,   // enqueue_batch_size
+                                             3),  // dequeue_batch_size
+                             // 09
+                             std::make_tuple(105, // nb_slots
+                                             1,   // enqueue_batch_size
+                                             5),  // dequeue_batch_size
+                             // 10
+                             std::make_tuple(105, // nb_slots
+                                             5,   // enqueue_batch_size
+                                             1),  // dequeue_batch_size
+                             // 11
+                             std::make_tuple(105, // nb_slots
+                                             5,   // enqueue_batch_size
+                                             5),  // dequeue_batch_size
+                             // 12
+                             std::make_tuple(105, // nb_slots
+                                             5,   // enqueue_batch_size
+                                             3),  // dequeue_batch_size
+                             // 13
+                             std::make_tuple(105,  // nb_slots
+                                             3,    // enqueue_batch_size
+                                             5))); // dequeue_batch_size
 } // namespace dh
