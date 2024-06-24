@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Holoflow’s documentation! &mdash; Holoflow 0.1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=01f34227"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Holoflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">Welcome to Holoflow’s documentation!</a></li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a><ul>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueueE"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::BatchedSPSCQueue()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::write_ptr()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::commit_write()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::read_ptr()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue11commit_readEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::commit_read()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue4sizeEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::size()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue5resetEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::reset()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue4fillEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::fill()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue11writer_sizeEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::writer_size()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue11reader_sizeEv"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::reader_size()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue9nb_slots_E"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::nb_slots_</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue19enqueue_batch_size_E"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::enqueue_batch_size_</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue19dequeue_batch_size_E"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::dequeue_batch_size_</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue13element_size_E"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::element_size_</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue7buffer_E"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::buffer_</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue10write_idx_E"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::write_idx_</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh16BatchedSPSCQueue9read_idx_E"><code class="docutils literal notranslate"><span class="pre">BatchedSPSCQueue::read_idx_</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N2dh21cudart_error_categoryE"><code class="docutils literal notranslate"><span class="pre">cudart_error_category</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4NK2dh21cudart_error_category4nameEv"><code class="docutils literal notranslate"><span class="pre">cudart_error_category::name()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4NK2dh21cudart_error_category7messageEi"><code class="docutils literal notranslate"><span class="pre">cudart_error_category::message()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N2dh13DeviceDeleterE"><code class="docutils literal notranslate"><span class="pre">DeviceDeleter</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N2dh13DeviceDeleterclEPv"><code class="docutils literal notranslate"><span class="pre">DeviceDeleter::operator()()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4N2dh11HostDeleterE"><code class="docutils literal notranslate"><span class="pre">HostDeleter</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N2dh11HostDeleterclEPv"><code class="docutils literal notranslate"><span class="pre">HostDeleter::operator()()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv42dh"><code class="docutils literal notranslate"><span class="pre">dh</span></code></a><ul>
+<li><a class="reference internal" href="#_CPPv4N2dh15cudart_categoryEv"><code class="docutils literal notranslate"><span class="pre">dh::cudart_category()</span></code></a></li>
+<li><a class="reference internal" href="#_CPPv4N2dh15make_error_codeE11cudaError_t"><code class="docutils literal notranslate"><span class="pre">dh::make_error_code()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#_CPPv4St"><code class="docutils literal notranslate"><span class="pre">std</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Holoflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Welcome to Holoflow’s documentation!</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="welcome-to-holoflow-s-documentation">
+<h1>Welcome to Holoflow’s documentation!<a class="headerlink" href="#welcome-to-holoflow-s-documentation" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueueE">
+<span id="_CPPv3N2dh16BatchedSPSCQueueE"></span><span id="_CPPv2N2dh16BatchedSPSCQueueE"></span><span id="dh::BatchedSPSCQueue"></span><span class="target" id="classdh_1_1BatchedSPSCQueue"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">BatchedSPSCQueue</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueueE" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;<a class="reference internal" href="#batched__spsc__queue_8hh"><span class="std std-ref">batched_spsc_queue.hh</span></a>&gt;</em></div>
+<p>A batched single-producer single-consumer (SPSC) queue implemented using a circular buffer. </p>
+<p>This class provides a high-performance queue that allows batching of enqueue and dequeue operations. It is designed for scenarios where a single producer thread enqueues data and a single consumer thread dequeues data. The queue uses a pre-allocated memory buffer to store elements, and it supports batched operations to improve performance. Sequential elements in a batch are guaranteed to be sequential in memory.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Not meeting the specified conditions results in undefined behavior. This includes:<ul class="simple">
+<li><p>Using the queue with multiple threads for enqueuing.</p></li>
+<li><p>Using the queue with multiple threads for dequeuing.</p></li>
+<li><p>Writing more than enqueue_batch_size elements in a single batch.</p></li>
+<li><p>Writing less than dequeue_batch_size elements in a single batch.</p></li>
+<li><p>Reading more than dequeue_batch_size elements in a single batch.</p></li>
+<li><p>Reading less than enqueue_batch_size elements in a single batch. </p></li>
+</ul>
+</p>
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE">
+<span id="_CPPv3N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE"></span><span id="_CPPv2N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE"></span><span id="dh::BatchedSPSCQueue::BatchedSPSCQueue__s.s.s.s.std::span:uint8_t:"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a04fedc49c23d1a2d5f2c35453bf301fa"></span><span class="sig-name descname"><span class="n"><span class="pre">BatchedSPSCQueue</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">nb_slots</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">enqueue_batch_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">dequeue_batch_size</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">element_size</span></span>, <a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">buffer</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue16BatchedSPSCQueueE6size_t6size_t6size_t6size_tNSt4spanI7uint8_tEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructs a <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue"><span class="std std-ref">BatchedSPSCQueue</span></a> with the specified parameters. </p>
+<p><ul class="simple">
+<li><p>buffer not being large enough to contain nb_slots * element_size </p></li>
+</ul>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Not meeting the specified conditions results in undefined behavior. This includes:<ul class="simple">
+<li><p>nb_slots not being a multiple of enqueue_batch_size or dequeue_batch_size.</p></li>
+</ul>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>nb_slots</strong> – The number of slots in the circular buffer. Note that not all slots can be used simultaneously. The actual capacity of the queue is nb_slots - enqueue_batch_size to avoid ambiguity between full and empty states. Additionally, nb_slots must be a multiple of both enqueue_batch_size and dequeue_batch_size. </p></li>
+<li><p><strong>enqueue_batch_size</strong> – The number of elements that can be enqueued in a single batch. </p></li>
+<li><p><strong>dequeue_batch_size</strong> – The number of elements that can be dequeued in a single batch. </p></li>
+<li><p><strong>element_size</strong> – The size of each element in bytes. </p></li>
+<li><p><strong>buffer</strong> – A pre-allocated memory block that is large enough to contain nb_slots * element_size bytes.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue9write_ptrEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue9write_ptrEv"></span><span id="dh::BatchedSPSCQueue::write_ptr"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a650f4f0053944ec43c1187d72fb8a047"></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_ptr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a span containing the buffer where the user can write data. </p>
+<p>This method provides a span where the next element(s) can be written. The caller is responsible for ensuring that the write does not exceed the available space. If the queue is full, this method returns std::nullopt.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The span returned by this method is invalidated after calling <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"><span class="std std-ref">commit_write()</span></a>. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A span containing the buffer where the user can write data, or std::nullopt if the queue is full.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue12commit_writeEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue12commit_writeEv"></span><span id="dh::BatchedSPSCQueue::commit_write"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1ac7e5ce74054e189e6c77d89ad0c1c3e5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">commit_write</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Commits the write operation. </p>
+<p>This method updates the write index after writing data to the buffer. It should be called after writing data to the span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a650f4f0053944ec43c1187d72fb8a047"><span class="std std-ref">write_ptr()</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a650f4f0053944ec43c1187d72fb8a047"><span class="std std-ref">write_ptr()</span></a> is invalidated after calling this method. </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue8read_ptrEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue8read_ptrEv"></span><span id="dh::BatchedSPSCQueue::read_ptr"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a06e010d1b59df7279026f4b8dba4de7f"></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">optional</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_ptr</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a span containing the buffer where the user can read data. </p>
+<p>This method provides a span where the next element(s) can be read. The caller is responsible for ensuring that the read does not exceed the available space. If the queue is empty, this method returns std::nullopt.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The span returned by this method is invalidated after calling <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"><span class="std std-ref">commit_read()</span></a>. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A span containing the buffer where the user can read data, or std::nullopt if the queue is empty.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue11commit_readEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue11commit_readEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue11commit_readEv"></span><span id="dh::BatchedSPSCQueue::commit_read"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1ad0f41216d8959ce2f0d25a5b0eb70167"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">commit_read</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue11commit_readEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Commits the read operation. </p>
+<p>This method updates the read index after reading data from the buffer. It should be called after reading data from the span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a06e010d1b59df7279026f4b8dba4de7f"><span class="std std-ref">read_ptr()</span></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The span returned by <a class="reference internal" href="#classdh_1_1BatchedSPSCQueue_1a06e010d1b59df7279026f4b8dba4de7f"><span class="std std-ref">read_ptr()</span></a> is invalidated after calling this method. </p>
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue4sizeEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue4sizeEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue4sizeEv"></span><span id="dh::BatchedSPSCQueue::size"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a7290364811cae0734b8507ed02da1c82"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue4sizeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the number of elements currently in the queue. </p>
+<p>This method provides the current size of the queue, i.e., the number of elements that have been enqueued but not yet dequeued.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of elements currently in the queue. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue5resetEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue5resetEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue5resetEv"></span><span id="dh::BatchedSPSCQueue::reset"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a7e5edb0da3c0bfc36535cda864b96402"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reset</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue5resetEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Resets the queue. </p>
+<p>This method clears the queue and resets the read and write indices. It is not thread-safe and should only be used for testing or benchmarking purposes. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue4fillEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue4fillEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue4fillEv"></span><span id="dh::BatchedSPSCQueue::fill"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a46aebb7a9cdeea74e5f10a2d9d3c9e46"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">fill</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue4fillEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Fills the queue with uninitialized data. </p>
+<p>This method fills the queue with uninitialized data. It is not thread-safe and should only be used for testing or benchmarking purposes. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-functions">Private Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue11writer_sizeEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue11writer_sizeEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue11writer_sizeEv"></span><span id="dh::BatchedSPSCQueue::writer_size"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1aec79efeac1fd928caf6ea65bcbff0b84"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">writer_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue11writer_sizeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the number of elements currently in the queue. </p>
+<p>This method provides the current size of the queue, i.e., the number of elements that have been enqueued but not yet dequeued.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method should only be called by the producer thread. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of elements currently in the queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue11reader_sizeEv">
+<span id="_CPPv3N2dh16BatchedSPSCQueue11reader_sizeEv"></span><span id="_CPPv2N2dh16BatchedSPSCQueue11reader_sizeEv"></span><span id="dh::BatchedSPSCQueue::reader_size"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1acdd761912d93e795a1216851d9aaecfb"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">reader_size</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue11reader_sizeEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the number of elements currently in the queue. </p>
+<p>This method provides the current size of the queue, i.e., the number of elements that have been enqueued but not yet dequeued.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method should only be called by the consumer thread. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The number of elements currently in the queue.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-private-members">Private Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue9nb_slots_E">
+<span id="_CPPv3N2dh16BatchedSPSCQueue9nb_slots_E"></span><span id="_CPPv2N2dh16BatchedSPSCQueue9nb_slots_E"></span><span id="dh::BatchedSPSCQueue::nb_slots___s"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1ac5c83f8c5bcc1334d2de9da63045cdc9"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nb_slots_</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue9nb_slots_E" title="Link to this definition"></a><br /></dt>
+<dd><p>The number of slots in the circular buffer. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue19enqueue_batch_size_E">
+<span id="_CPPv3N2dh16BatchedSPSCQueue19enqueue_batch_size_E"></span><span id="_CPPv2N2dh16BatchedSPSCQueue19enqueue_batch_size_E"></span><span id="dh::BatchedSPSCQueue::enqueue_batch_size___s"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1ae203709b8d6febc8159b415b4c0d5338"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">enqueue_batch_size_</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue19enqueue_batch_size_E" title="Link to this definition"></a><br /></dt>
+<dd><p>The maximum number of elements that can be enqueued in a single batch. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue19dequeue_batch_size_E">
+<span id="_CPPv3N2dh16BatchedSPSCQueue19dequeue_batch_size_E"></span><span id="_CPPv2N2dh16BatchedSPSCQueue19dequeue_batch_size_E"></span><span id="dh::BatchedSPSCQueue::dequeue_batch_size___s"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a4492abc6c94916bb9862ced7f5e9e508"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dequeue_batch_size_</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue19dequeue_batch_size_E" title="Link to this definition"></a><br /></dt>
+<dd><p>The maximum number of elements that can be dequeued in a single batch. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue13element_size_E">
+<span id="_CPPv3N2dh16BatchedSPSCQueue13element_size_E"></span><span id="_CPPv2N2dh16BatchedSPSCQueue13element_size_E"></span><span id="dh::BatchedSPSCQueue::element_size___s"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1acf3ba92ba219dda5faa2a4d2afe6d1f5"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">element_size_</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue13element_size_E" title="Link to this definition"></a><br /></dt>
+<dd><p>The size of each element in bytes. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue7buffer_E">
+<span id="_CPPv3N2dh16BatchedSPSCQueue7buffer_E"></span><span id="_CPPv2N2dh16BatchedSPSCQueue7buffer_E"></span><span id="dh::BatchedSPSCQueue::buffer___std::span:uint8_t:"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1ae06ad2f1b2cb532e9238c2c537f3babb"></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">span</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">buffer_</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue7buffer_E" title="Link to this definition"></a><br /></dt>
+<dd><p>A pre-allocated memory block for storing elements. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue10write_idx_E">
+<span id="_CPPv3N2dh16BatchedSPSCQueue10write_idx_E"></span><span id="_CPPv2N2dh16BatchedSPSCQueue10write_idx_E"></span><span id="dh::BatchedSPSCQueue::write_idx___std::atomic:s:"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1acb781f3c31754b20b4d869faf8ccfa0f"></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">atomic</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">write_idx_</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue10write_idx_E" title="Link to this definition"></a><br /></dt>
+<dd><p>The current write index. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh16BatchedSPSCQueue9read_idx_E">
+<span id="_CPPv3N2dh16BatchedSPSCQueue9read_idx_E"></span><span id="_CPPv2N2dh16BatchedSPSCQueue9read_idx_E"></span><span id="dh::BatchedSPSCQueue::read_idx___std::atomic:s:"></span><span class="target" id="classdh_1_1BatchedSPSCQueue_1a4e7c631cc555dc14854c092d827e1553"></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">atomic</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">size_t</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_idx_</span></span></span><a class="headerlink" href="#_CPPv4N2dh16BatchedSPSCQueue9read_idx_E" title="Link to this definition"></a><br /></dt>
+<dd><p>The current read index. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh21cudart_error_categoryE">
+<span id="_CPPv3N2dh21cudart_error_categoryE"></span><span id="_CPPv2N2dh21cudart_error_categoryE"></span><span id="dh::cudart_error_category"></span><span class="target" id="classdh_1_1cudart__error__category"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cudart_error_category</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_category</span></span><a class="headerlink" href="#_CPPv4N2dh21cudart_error_categoryE" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;<a class="reference internal" href="#cudart__utils_8hh"><span class="std std-ref">cudart_utils.hh</span></a>&gt;</em></div>
+<p>Custom error category for CUDA runtime errors. </p>
+<p>This class extends std::error_category to provide custom error messages for CUDA runtime errors. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2dh21cudart_error_category4nameEv">
+<span id="_CPPv3NK2dh21cudart_error_category4nameEv"></span><span id="_CPPv2NK2dh21cudart_error_category4nameEv"></span><span id="dh::cudart_error_category::nameC"></span><span class="target" id="classdh_1_1cudart__error__category_1a35f35a13e7a055e29c992b64133def32"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2dh21cudart_error_category4nameEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the name of the error category. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A constant character pointer to the name of the error category. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2dh21cudart_error_category7messageEi">
+<span id="_CPPv3NK2dh21cudart_error_category7messageEi"></span><span id="_CPPv2NK2dh21cudart_error_category7messageEi"></span><span id="dh::cudart_error_category::message__iC"></span><span class="target" id="classdh_1_1cudart__error__category_1a3a0409aa5aed7bd1b7e810b82fe0ced2"></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">message</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ev</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2dh21cudart_error_category7messageEi" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the error message corresponding to the error value. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ev</strong> – The error value. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string containing the error message. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13DeviceDeleterE">
+<span id="_CPPv3N2dh13DeviceDeleterE"></span><span id="_CPPv2N2dh13DeviceDeleterE"></span><span id="dh::DeviceDeleter"></span><span class="target" id="structdh_1_1DeviceDeleter"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">DeviceDeleter</span></span></span><a class="headerlink" href="#_CPPv4N2dh13DeviceDeleterE" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;<a class="reference internal" href="#cudart__utils_8hh"><span class="std std-ref">cudart_utils.hh</span></a>&gt;</em></div>
+<p>Custom deleter for CUDA device memory. </p>
+<p>This struct provides a custom deleter for use with smart pointers managing CUDA device memory. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13DeviceDeleterclEPv">
+<span id="_CPPv3N2dh13DeviceDeleterclEPv"></span><span id="_CPPv2N2dh13DeviceDeleterclEPv"></span><span id="dh::DeviceDeleter::call-operator__voidP"></span><span class="target" id="structdh_1_1DeviceDeleter_1a1697d2592a376919e853ef1bf69bdea5"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh13DeviceDeleterclEPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Deletes the CUDA device memory pointed to by ptr. </p>
+<p>The pointer must have been allocated by cudaMalloc. In case of failure, the function will log the error and exit with status EXIT_FAILURE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ptr</strong> – Pointer to the CUDA device memory to be deleted. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh11HostDeleterE">
+<span id="_CPPv3N2dh11HostDeleterE"></span><span id="_CPPv2N2dh11HostDeleterE"></span><span id="dh::HostDeleter"></span><span class="target" id="structdh_1_1HostDeleter"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HostDeleter</span></span></span><a class="headerlink" href="#_CPPv4N2dh11HostDeleterE" title="Link to this definition"></a><br /></dt>
+<dd><div class="docutils container">
+<em>#include &lt;<a class="reference internal" href="#cudart__utils_8hh"><span class="std std-ref">cudart_utils.hh</span></a>&gt;</em></div>
+<p>Custom deleter for CUDA host memory. </p>
+<p>This struct provides a custom deleter for use with smart pointers managing CUDA host memory. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh11HostDeleterclEPv">
+<span id="_CPPv3N2dh11HostDeleterclEPv"></span><span id="_CPPv2N2dh11HostDeleterclEPv"></span><span id="dh::HostDeleter::call-operator__voidP"></span><span class="target" id="structdh_1_1HostDeleter_1ac910eb3d4ea59f4f8e09d18d428da289"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="k"><span class="pre">operator</span></span><span class="o"><span class="pre">()</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">ptr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh11HostDeleterclEPv" title="Link to this definition"></a><br /></dt>
+<dd><p>Deletes the CUDA host memory pointed to by ptr. </p>
+<p>The pointer must have been allocated by cudaMallocHost. In case of failure, the function will log the error and exit with status EXIT_FAILURE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ptr</strong> – Pointer to the CUDA host memory to be deleted. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv42dh">
+<span id="_CPPv32dh"></span><span id="_CPPv22dh"></span><span id="dh"></span><span class="target" id="namespacedh"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dh</span></span></span><a class="headerlink" href="#_CPPv42dh" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-functions">Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh15cudart_categoryEv">
+<span id="_CPPv3N2dh15cudart_categoryEv"></span><span id="_CPPv2N2dh15cudart_categoryEv"></span><span id="dh::cudart_category"></span><span class="target" id="namespacedh_1add0db8ca2d6bcb6ef5fc07363d329a35"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_category</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">cudart_category</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh15cudart_categoryEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns a reference to the custom CUDA runtime error category. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A constant reference to the <a class="reference internal" href="#classdh_1_1cudart__error__category"><span class="std std-ref">cudart_error_category</span></a> instance. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh15make_error_codeE11cudaError_t">
+<span id="_CPPv3N2dh15make_error_codeE11cudaError_t"></span><span id="_CPPv2N2dh15make_error_codeE11cudaError_t"></span><span id="dh::make_error_code__cudaError_t"></span><span class="target" id="namespacedh_1a616b7f7b9131acc3d7df448d35715eb4"></span><a class="reference internal" href="#_CPPv4St" title="std"><span class="n"><span class="pre">std</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_code</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">make_error_code</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">cudaError_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">e</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh15make_error_codeE11cudaError_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates an error code for a given CUDA runtime error. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>e</strong> – The CUDA runtime error. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A std::error_code object representing the CUDA runtime error. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4St">
+<span id="_CPPv3St"></span><span id="_CPPv2St"></span><span id="std"></span><span class="target" id="namespacestd"></span><span class="k"><span class="pre">namespace</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">std</span></span></span><a class="headerlink" href="#_CPPv4St" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="batched__spsc__queue_8hh"></span><em><span class="pre">file</span></em> <span class="sig-name descname"><span class="pre">batched_spsc_queue.hh</span></span></dt>
+<dd><div class="docutils container">
+<em>#include &lt;atomic&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;cstddef&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;cstdint&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;optional&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;span&gt;</em></div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.CACHE_LINE_SIZE">
+<span class="target" id="batched__spsc__queue_8hh_1af89f60b07247176687889ade776c8e10"></span><span class="sig-name descname"><span class="n"><span class="pre">CACHE_LINE_SIZE</span></span></span><a class="headerlink" href="#c.CACHE_LINE_SIZE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="batched__spsc__queue_8cc"></span><em><span class="pre">file</span></em> <span class="sig-name descname"><span class="pre">batched_spsc_queue.cc</span></span></dt>
+<dd><div class="docutils container">
+<em>#include “<a class="reference internal" href="#batched__spsc__queue_8hh"><span class="std std-ref">batched_spsc_queue.hh</span></a>”</em></div>
+<div class="docutils container">
+<em>#include &lt;atomic&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;cstdint&gt;</em></div>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="cudart__utils_8hh"></span><em><span class="pre">file</span></em> <span class="sig-name descname"><span class="pre">cudart_utils.hh</span></span></dt>
+<dd><div class="docutils container">
+<em>#include &lt;cuda_runtime.h&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;iostream&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;string&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;system_error&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;tl/expected.hpp&gt;</em></div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-defines">Defines</p>
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.CUDART_EXIT">
+<span class="target" id="cudart__utils_8hh_1a807d988d4a4b24183a1f27fc9e65d3c5"></span><span class="sig-name descname"><span class="n"><span class="pre">CUDART_EXIT</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">call</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.CUDART_EXIT" title="Link to this definition"></a><br /></dt>
+<dd><p>Macro to call a CUDA runtime function and exit on error. </p>
+<p>This macro calls a CUDA runtime function and checks for errors. If an error occurs, it logs the error message and exits the program with status EXIT_FAILURE.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>call</strong> – The CUDA runtime function to call. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.CUDART_EXPECTED">
+<span class="target" id="cudart__utils_8hh_1a08231c96163bfe9c298f6f46a9a31f54"></span><span class="sig-name descname"><span class="n"><span class="pre">CUDART_EXPECTED</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">call</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.CUDART_EXPECTED" title="Link to this definition"></a><br /></dt>
+<dd><p>Macro to call a CUDA runtime function and return an expected result. </p>
+<p>This macro calls a CUDA runtime function and checks for errors. If an error occurs, it returns a tl::unexpected with the corresponding std::error_code. Otherwise, it returns an empty tl::expected.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>call</strong> – The CUDA runtime function to call. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A tl::expected&lt;void, std::error_code&gt; indicating success or failure. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp macro">
+<dt class="sig sig-object cpp" id="c.CUDART_TRY">
+<span class="target" id="cudart__utils_8hh_1a2c531790cb9137d5c010af6f82dd638f"></span><span class="sig-name descname"><span class="n"><span class="pre">CUDART_TRY</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">call</span></span><span class="sig-paren">)</span><a class="headerlink" href="#c.CUDART_TRY" title="Link to this definition"></a><br /></dt>
+<dd><p>Macro to call a CUDA runtime function and return on error. </p>
+<p>This macro calls a CUDA runtime function and checks for errors. If an error occurs, it returns a tl::unexpected with the corresponding std::error_code.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>call</strong> – The CUDA runtime function to call. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="cudart__utils_8cc"></span><em><span class="pre">file</span></em> <span class="sig-name descname"><span class="pre">cudart_utils.cc</span></span></dt>
+<dd><div class="docutils container">
+<em>#include “<a class="reference internal" href="#cudart__utils_8hh"><span class="std std-ref">cudart_utils.hh</span></a>”</em></div>
+<div class="docutils container">
+<em>#include “cuda_runtime_api.h”</em></div>
+<div class="docutils container">
+<em>#include &lt;cuda_runtime.h&gt;</em></div>
+<div class="docutils container">
+<em>#include &lt;system_error&gt;</em></div>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="dir_f9a1e655c5697a31e0fb07c2f546ac75"></span><em><span class="pre">dir</span></em> <span class="sig-name descname"><span class="pre">libs/batched_spsc_queue</span></span></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="dir_2ded037ad232c3529b362bd08285412a"></span><em><span class="pre">dir</span></em> <span class="sig-name descname"><span class="pre">libs/cudart_utils</span></span></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="dir_9dd3bff5768c6f3504ec41a9aafd55ab"></span><em><span class="pre">dir</span></em> <span class="sig-name descname"><span class="pre">libs/batched_spsc_queue/include</span></span></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="dir_d4d709fb1331314ccaf840e4764aa27d"></span><em><span class="pre">dir</span></em> <span class="sig-name descname"><span class="pre">libs/cudart_utils/include</span></span></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="dir_6719ab1f1f7655efc2fa43f7eb574fd1"></span><em><span class="pre">dir</span></em> <span class="sig-name descname"><span class="pre">libs</span></span></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="dir_7125951fcd1d61297428668c317a5f8f"></span><em><span class="pre">dir</span></em> <span class="sig-name descname"><span class="pre">libs/batched_spsc_queue/src</span></span></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="dir_f1d82ae29f4d42a4aab2d4d1d626acaf"></span><em><span class="pre">dir</span></em> <span class="sig-name descname"><span class="pre">libs/cudart_utils/src</span></span></dt>
+<dd></dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="examples_2minimal_example_8cc-example"></span><em><span class="pre">example</span></em> <span class="sig-name descname"><span class="pre">examples/minimal_example.cc</span></span></dt>
+<dd><p>This is an example of how to use the queue is a very simple context. <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</p>
+</dd></dl>
+
+<dl>
+<dt class="sig sig-object cpp">
+<span class="target" id="examples_2images_manipulation_8cc-example"></span><em><span class="pre">example</span></em> <span class="sig-name descname"><span class="pre">examples/images_manipulation.cc</span></span></dt>
+<dd><p>This is an example of how to use the queue as one would for image processing. <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Jules Guillou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
