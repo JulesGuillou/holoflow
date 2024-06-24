@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "all",
         "ide",
-        "batched_spsc_queue"
+        "batched_spsc_queue",
+        "cudart_utils"
     ]
 }
