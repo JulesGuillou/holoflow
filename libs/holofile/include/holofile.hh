@@ -170,6 +170,17 @@ struct HolofileHeader {
 // We need to ensure the header is exactly 64 bytes.
 static_assert(sizeof(HolofileHeader) == 64, "HolofileHeader must be 64 bytes");
 
+/**
+ * @brief Class for reading Holofile files.
+ *
+ * The HolofileReader class provides a simple interface for reading Holofile
+ * files. It allows you to open a Holofile, read the header, seek to a specific
+ * frame, and read frames from the file.
+ *
+ * The following example demonstrates how to use the `HolofileReader` class to
+ * read frames from a Holofile:
+ * @include examples/holofile/reader_example.cc
+ */
 class HolofileReader {
 public:
   /**
@@ -226,6 +237,11 @@ public:
    * - `dh::HolofileError::EndOfFile`: The end of the file was reached
    * unexpectedly while reading the frames.
    * - Underlying file I/O errors accessed through `std::generic_category`.
+   *
+   * @warning This method will lead to undefined behavior if the following
+   * constraints are not respected:
+   * - The `data` pointer must point to a buffer with enough space to read
+   * `count` frames.
    */
   tl::expected<void, std::error_code> read_frames(uint8_t *data, size_t count);
 
