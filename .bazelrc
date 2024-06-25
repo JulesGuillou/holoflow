@@ -1,1 +1,1 @@
-test --cache_test_results=no --test_summary=detailed
+try-import %workspace%/user.bazelrc
