@@ -12,6 +12,7 @@ Welcome to Holoflow's documentation!
 
    introduction
    batched_spsc_queue/index
+   holofile/index
 
 Indices and tables
 ==================

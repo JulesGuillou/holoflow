@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Holofile API Documentation &mdash; Holoflow 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Holoflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../batched_spsc_queue/index.html">batched_spsc_queue library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">holofile library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Holofile API Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh13HolofileErrorE"><code class="docutils literal notranslate"><span class="pre">HolofileError</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13HolofileError9EndOfFileE"><code class="docutils literal notranslate"><span class="pre">HolofileError::EndOfFile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13HolofileError16IncompleteHeaderE"><code class="docutils literal notranslate"><span class="pre">HolofileError::IncompleteHeader</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13HolofileError18InvalidMagicNumberE"><code class="docutils literal notranslate"><span class="pre">HolofileError::InvalidMagicNumber</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13HolofileError14InvalidVersionE"><code class="docutils literal notranslate"><span class="pre">HolofileError::InvalidVersion</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13HolofileError16InvalidFrameSizeE"><code class="docutils literal notranslate"><span class="pre">HolofileError::InvalidFrameSize</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeaderE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader12magic_numberE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::magic_number</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader7versionE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::version</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader14bits_per_pixelE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::bits_per_pixel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader11frame_widthE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::frame_width</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader12frame_heightE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::frame_height</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader11frame_countE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::frame_count</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader15total_data_sizeE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::total_data_size</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader10endiannessE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::endianness</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileHeader7paddingE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader::padding</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh14HolofileReaderE"><code class="docutils literal notranslate"><span class="pre">HolofileReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK2dh14HolofileReader6headerEv"><code class="docutils literal notranslate"><span class="pre">HolofileReader::header()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileReader4seekE6size_t"><code class="docutils literal notranslate"><span class="pre">HolofileReader::seek()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK2dh14HolofileReader4tellEv"><code class="docutils literal notranslate"><span class="pre">HolofileReader::tell()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileReader11read_framesEP7uint8_t6size_t"><code class="docutils literal notranslate"><span class="pre">HolofileReader::read_frames()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh14HolofileReader4openERKNSt6stringE"><code class="docutils literal notranslate"><span class="pre">HolofileReader::open()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh23holofile_error_categoryE"><code class="docutils literal notranslate"><span class="pre">holofile_error_category</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK2dh23holofile_error_category4nameEv"><code class="docutils literal notranslate"><span class="pre">holofile_error_category::name()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4NK2dh23holofile_error_category7messageEi"><code class="docutils literal notranslate"><span class="pre">holofile_error_category::message()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh17holofile_categoryEv"><code class="docutils literal notranslate"><span class="pre">holofile_category()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh15make_error_codeE13HolofileError"><code class="docutils literal notranslate"><span class="pre">make_error_code()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Holoflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">holofile library</a></li>
+      <li class="breadcrumb-item active">Holofile API Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/holofile/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="holofile-api-documentation">
+<h1>Holofile API Documentation<a class="headerlink" href="#holofile-api-documentation" title="Link to this heading"></a></h1>
+<dl class="cpp enum-class">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13HolofileErrorE">
+<span id="_CPPv3N2dh13HolofileErrorE"></span><span id="_CPPv2N2dh13HolofileErrorE"></span><span class="target" id="namespacedh_1aaee846c9d64863e80bb0396e55d7d189"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">HolofileError</span></span></span><a class="headerlink" href="#_CPPv4N2dh13HolofileErrorE" title="Link to this definition"></a><br /></dt>
+<dd><p>Enum class representing errors that can occur when manipulating Holofile files. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This error enum is not exhaustive and may be extended in the future.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This error enum is not exhaustive as other errors may be returned by the underlying file I/O operations. </p>
+</div>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13HolofileError9EndOfFileE">
+<span id="_CPPv3N2dh13HolofileError9EndOfFileE"></span><span id="_CPPv2N2dh13HolofileError9EndOfFileE"></span><span class="target" id="namespacedh_1aaee846c9d64863e80bb0396e55d7d189a9556e151da49cd4bcf0352857cb33509"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">EndOfFile</span></span></span><a class="headerlink" href="#_CPPv4N2dh13HolofileError9EndOfFileE" title="Link to this definition"></a><br /></dt>
+<dd><p>Indicates that the end of the file has been reached. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13HolofileError16IncompleteHeaderE">
+<span id="_CPPv3N2dh13HolofileError16IncompleteHeaderE"></span><span id="_CPPv2N2dh13HolofileError16IncompleteHeaderE"></span><span class="target" id="namespacedh_1aaee846c9d64863e80bb0396e55d7d189a57a84b0d7182f75eb11b204d4095be86"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">IncompleteHeader</span></span></span><a class="headerlink" href="#_CPPv4N2dh13HolofileError16IncompleteHeaderE" title="Link to this definition"></a><br /></dt>
+<dd><p>Indicates that the header is incomplete. </p>
+<p>This can occur if the file does not contain enough bytes to read the header. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13HolofileError18InvalidMagicNumberE">
+<span id="_CPPv3N2dh13HolofileError18InvalidMagicNumberE"></span><span id="_CPPv2N2dh13HolofileError18InvalidMagicNumberE"></span><span class="target" id="namespacedh_1aaee846c9d64863e80bb0396e55d7d189a59b2758450ef3709a6f6498218abe56b"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InvalidMagicNumber</span></span></span><a class="headerlink" href="#_CPPv4N2dh13HolofileError18InvalidMagicNumberE" title="Link to this definition"></a><br /></dt>
+<dd><p>Indicates that the magic number is invalid. </p>
+<p>The magic number must be 0x484F4C4F or 0x4F4C4F48 depending on the endianness, which corresponds to the ASCII string “HOLO”. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13HolofileError14InvalidVersionE">
+<span id="_CPPv3N2dh13HolofileError14InvalidVersionE"></span><span id="_CPPv2N2dh13HolofileError14InvalidVersionE"></span><span class="target" id="namespacedh_1aaee846c9d64863e80bb0396e55d7d189a47ff03d2239a69112904305444be2fc0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InvalidVersion</span></span></span><a class="headerlink" href="#_CPPv4N2dh13HolofileError14InvalidVersionE" title="Link to this definition"></a><br /></dt>
+<dd><p>Indicates that the version number is invalid. </p>
+<p>The current supported version is 2. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13HolofileError16InvalidFrameSizeE">
+<span id="_CPPv3N2dh13HolofileError16InvalidFrameSizeE"></span><span id="_CPPv2N2dh13HolofileError16InvalidFrameSizeE"></span><span class="target" id="namespacedh_1aaee846c9d64863e80bb0396e55d7d189a724ec41516ea03e04698c66a7e62cdb2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">InvalidFrameSize</span></span></span><a class="headerlink" href="#_CPPv4N2dh13HolofileError16InvalidFrameSizeE" title="Link to this definition"></a><br /></dt>
+<dd><p>Indicates that the frame size is invalid. </p>
+<p>The frame size must be a multiple of 8 bits. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeaderE">
+<span id="_CPPv3N2dh14HolofileHeaderE"></span><span id="_CPPv2N2dh14HolofileHeaderE"></span><span id="dh::HolofileHeader"></span><span class="target" id="structdh_1_1HolofileHeader"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HolofileHeader</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeaderE" title="Link to this definition"></a><br /></dt>
+<dd><p>Header structure for the Holofile format. </p>
+<p>The Holofile format is a simple file format for storing a sequence of black and white frames. The header structure contains metadata about the file, such as the magic number, version number, frame size, and frame count. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader12magic_numberE">
+<span id="_CPPv3N2dh14HolofileHeader12magic_numberE"></span><span id="_CPPv2N2dh14HolofileHeader12magic_numberE"></span><span id="dh::HolofileHeader::magic_number__uint32_t"></span><span class="target" id="structdh_1_1HolofileHeader_1ad7126f816feea8d6af2120024ef6610f"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">magic_number</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader12magic_numberE" title="Link to this definition"></a><br /></dt>
+<dd><p>Magic number to identify the file format. </p>
+<p>The magic number is used to identify the file format. It is a 32-bit integer with the value 0x484F4C4F or 0x4F4C4F48 depending on the endianness, which corresponds to the ASCII string “HOLO”. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader7versionE">
+<span id="_CPPv3N2dh14HolofileHeader7versionE"></span><span id="_CPPv2N2dh14HolofileHeader7versionE"></span><span id="dh::HolofileHeader::version__uint16_t"></span><span class="target" id="structdh_1_1HolofileHeader_1a637448a33f0a6735591a8f8bd271844a"></span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">version</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader7versionE" title="Link to this definition"></a><br /></dt>
+<dd><p>Version number of the file format. </p>
+<p>The version number is used to identify the version of the file format. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader14bits_per_pixelE">
+<span id="_CPPv3N2dh14HolofileHeader14bits_per_pixelE"></span><span id="_CPPv2N2dh14HolofileHeader14bits_per_pixelE"></span><span id="dh::HolofileHeader::bits_per_pixel__uint16_t"></span><span class="target" id="structdh_1_1HolofileHeader_1a58f08b0d718400fb94d835b2a4b09e0c"></span><span class="n"><span class="pre">uint16_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bits_per_pixel</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader14bits_per_pixelE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of bits per pixel. </p>
+<p>The number of bits per pixel is used to determine the black and white depth of the frames. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader11frame_widthE">
+<span id="_CPPv3N2dh14HolofileHeader11frame_widthE"></span><span id="_CPPv2N2dh14HolofileHeader11frame_widthE"></span><span id="dh::HolofileHeader::frame_width__uint32_t"></span><span class="target" id="structdh_1_1HolofileHeader_1a4e37876810cc60c195a64eb81e1e0553"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">frame_width</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader11frame_widthE" title="Link to this definition"></a><br /></dt>
+<dd><p>Width of the frames in pixels. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader12frame_heightE">
+<span id="_CPPv3N2dh14HolofileHeader12frame_heightE"></span><span id="_CPPv2N2dh14HolofileHeader12frame_heightE"></span><span id="dh::HolofileHeader::frame_height__uint32_t"></span><span class="target" id="structdh_1_1HolofileHeader_1af0f9be11c6cb564286b9563e5fddec20"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">frame_height</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader12frame_heightE" title="Link to this definition"></a><br /></dt>
+<dd><p>Height of the frames in pixels. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader11frame_countE">
+<span id="_CPPv3N2dh14HolofileHeader11frame_countE"></span><span id="_CPPv2N2dh14HolofileHeader11frame_countE"></span><span id="dh::HolofileHeader::frame_count__uint32_t"></span><span class="target" id="structdh_1_1HolofileHeader_1a02190b755450f81ec5596756bf24256b"></span><span class="n"><span class="pre">uint32_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">frame_count</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader11frame_countE" title="Link to this definition"></a><br /></dt>
+<dd><p>Number of frames in the file. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader15total_data_sizeE">
+<span id="_CPPv3N2dh14HolofileHeader15total_data_sizeE"></span><span id="_CPPv2N2dh14HolofileHeader15total_data_sizeE"></span><span id="dh::HolofileHeader::total_data_size__uint64_t"></span><span class="target" id="structdh_1_1HolofileHeader_1ac8cd2948c96ee175df03d6927f89ccef"></span><span class="n"><span class="pre">uint64_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">total_data_size</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader15total_data_sizeE" title="Link to this definition"></a><br /></dt>
+<dd><p>Total size of the data section in bytes. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader10endiannessE">
+<span id="_CPPv3N2dh14HolofileHeader10endiannessE"></span><span id="_CPPv2N2dh14HolofileHeader10endiannessE"></span><span id="dh::HolofileHeader::endianness__uint8_t"></span><span class="target" id="structdh_1_1HolofileHeader_1a496d0773242b6911c166c13885e5fdee"></span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">endianness</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader10endiannessE" title="Link to this definition"></a><br /></dt>
+<dd><p>Endianness of the file. </p>
+<p>The endianness of the file is used to determine the byte order of the data section. </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileHeader7paddingE">
+<span id="_CPPv3N2dh14HolofileHeader7paddingE"></span><span id="_CPPv2N2dh14HolofileHeader7paddingE"></span><span id="dh::HolofileHeader::padding__cA"></span><span class="target" id="structdh_1_1HolofileHeader_1a5aeb89ebd2e97635d385b11be382ed52"></span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">padding</span></span></span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">35</span></span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileHeader7paddingE" title="Link to this definition"></a><br /></dt>
+<dd><p>Reserved padding. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileReaderE">
+<span id="_CPPv3N2dh14HolofileReaderE"></span><span id="_CPPv2N2dh14HolofileReaderE"></span><span id="dh::HolofileReader"></span><span class="target" id="classdh_1_1HolofileReader"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HolofileReader</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileReaderE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2dh14HolofileReader6headerEv">
+<span id="_CPPv3NK2dh14HolofileReader6headerEv"></span><span id="_CPPv2NK2dh14HolofileReader6headerEv"></span><span id="dh::HolofileReader::headerC"></span><span class="target" id="classdh_1_1HolofileReader_1a79830d2ec50a1156b0f757b779222e38"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N2dh14HolofileHeaderE" title="dh::HolofileHeader"><span class="n"><span class="pre">HolofileHeader</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-name descname"><span class="n"><span class="pre">header</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2dh14HolofileReader6headerEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the header of the Holofile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference to the header of the Holofile. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileReader4seekE6size_t">
+<span id="_CPPv3N2dh14HolofileReader4seekE6size_t"></span><span id="_CPPv2N2dh14HolofileReader4seekE6size_t"></span><span id="dh::HolofileReader::seek__s"></span><span class="target" id="classdh_1_1HolofileReader_1a22dcfeee0b96eeb9bd57c39b8fa5ad34"></span><span class="n"><span class="pre">tl</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_code</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">seek</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">frame_index</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh14HolofileReader4seekE6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Seeks to the specified frame index in the Holofile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>frame_index</strong> – The index of the frame to seek to. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">tl::expected</span></code> indicating success or failure. If an error occurs, a <code class="docutils literal notranslate"><span class="pre">std::error_code</span></code> is returned. The possible error codes are:<ul class="simple">
+<li><p>Underlying file I/O errors accessed through <code class="docutils literal notranslate"><span class="pre">std::generic_category</span></code>. </p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2dh14HolofileReader4tellEv">
+<span id="_CPPv3NK2dh14HolofileReader4tellEv"></span><span id="_CPPv2NK2dh14HolofileReader4tellEv"></span><span id="dh::HolofileReader::tellC"></span><span class="target" id="classdh_1_1HolofileReader_1a9bf808b2a83d142ab1388f4119a4cbbf"></span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">tell</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK2dh14HolofileReader4tellEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the current frame index.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The current frame index. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileReader11read_framesEP7uint8_t6size_t">
+<span id="_CPPv3N2dh14HolofileReader11read_framesEP7uint8_t6size_t"></span><span id="_CPPv2N2dh14HolofileReader11read_framesEP7uint8_t6size_t"></span><span id="dh::HolofileReader::read_frames__uint8_tP.s"></span><span class="target" id="classdh_1_1HolofileReader_1adb4e0252b248d08a0d0d84b40e9d7e5d"></span><span class="n"><span class="pre">tl</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_code</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_frames</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">data</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh14HolofileReader11read_framesEP7uint8_t6size_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Reads the specified number of frames from the Holofile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> – A pointer to the buffer to read the frames into. </p></li>
+<li><p><strong>count</strong> – The number of frames to read. </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">tl::expected</span></code> indicating success or failure. If an error occurs, a <code class="docutils literal notranslate"><span class="pre">std::error_code</span></code> is returned. The possible error codes are:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1aaee846c9d64863e80bb0396e55d7d189a9556e151da49cd4bcf0352857cb33509"><span class="std std-ref"><span class="pre">dh::HolofileError::EndOfFile</span></span></a></code>: The end of the file was reached unexpectedly while reading the frames.</p></li>
+<li><p>Underlying file I/O errors accessed through <code class="docutils literal notranslate"><span class="pre">std::generic_category</span></code>. </p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileReader4openERKNSt6stringE">
+<span id="_CPPv3N2dh14HolofileReader4openERKNSt6stringE"></span><span id="_CPPv2N2dh14HolofileReader4openERKNSt6stringE"></span><span id="dh::HolofileReader::open__ssCR"></span><span class="target" id="classdh_1_1HolofileReader_1a0909dfd60118c1024fa75811d850a778"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="n"><span class="pre">tl</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N2dh14HolofileReaderE" title="dh::HolofileReader"><span class="n"><span class="pre">HolofileReader</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_code</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">open</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">filename</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh14HolofileReader4openERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Opens a <a class="reference internal" href="#classdh_1_1HolofileReader"><span class="std std-ref">HolofileReader</span></a> for the specified filename.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – The name of the file to open. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">tl::expected</span></code> containing a <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1HolofileReader"><span class="std std-ref"><span class="pre">HolofileReader</span></span></a></code> if the file was successfully opened, or a <code class="docutils literal notranslate"><span class="pre">std::error_code</span></code> if an error occurred. The possible error codes are:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1aaee846c9d64863e80bb0396e55d7d189a57a84b0d7182f75eb11b204d4095be86"><span class="std std-ref"><span class="pre">dh::HolofileError::IncompleteHeader</span></span></a></code>: The end of the file was reached unexpectedly while reading the header.</p></li>
+<li><p><code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1aaee846c9d64863e80bb0396e55d7d189a59b2758450ef3709a6f6498218abe56b"><span class="std std-ref"><span class="pre">dh::HolofileError::InvalidMagicNumber</span></span></a></code>: The magic number in the header is invalid.</p></li>
+<li><p><code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1aaee846c9d64863e80bb0396e55d7d189a47ff03d2239a69112904305444be2fc0"><span class="std std-ref"><span class="pre">dh::HolofileError::InvalidVersion</span></span></a></code>: The version number in the header is invalid.</p></li>
+<li><p><code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1aaee846c9d64863e80bb0396e55d7d189a724ec41516ea03e04698c66a7e62cdb2"><span class="std std-ref"><span class="pre">dh::HolofileError::InvalidFrameSize</span></span></a></code>: The frame size in the header is not a multiple of 8 bits.</p></li>
+<li><p>Underlying file I/O errors accessed through <code class="docutils literal notranslate"><span class="pre">std::generic_category</span></code>. </p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh23holofile_error_categoryE">
+<span id="_CPPv3N2dh23holofile_error_categoryE"></span><span id="_CPPv2N2dh23holofile_error_categoryE"></span><span id="dh::holofile_error_category"></span><span class="target" id="classdh_1_1holofile__error__category"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">holofile_error_category</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_category</span></span><a class="headerlink" href="#_CPPv4N2dh23holofile_error_categoryE" title="Link to this definition"></a><br /></dt>
+<dd><p>Error category for Holofile errors. </p>
+<p>This class provides the error category for Holofile errors. It is used to provide custom error messages for Holofile errors.</p>
+<p>Represents an error category for holofile.</p>
+<p>This class inherits from std::error_category and provides a custom error category for holofile. </p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2dh23holofile_error_category4nameEv">
+<span id="_CPPv3NK2dh23holofile_error_category4nameEv"></span><span id="_CPPv2NK2dh23holofile_error_category4nameEv"></span><span id="dh::holofile_error_category::nameC"></span><span class="target" id="classdh_1_1holofile__error__category_1aec5df20fa09ef6cd004d3349877b7024"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">char</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">name</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">noexcept</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2dh23holofile_error_category4nameEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Get the name of the error category. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A pointer to a C-style string containing the name of the error category. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK2dh23holofile_error_category7messageEi">
+<span id="_CPPv3NK2dh23holofile_error_category7messageEi"></span><span id="_CPPv2NK2dh23holofile_error_category7messageEi"></span><span id="dh::holofile_error_category::message__iC"></span><span class="target" id="classdh_1_1holofile__error__category_1a204b15c2bc01ae1a46280195f992e165"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">message</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ev</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4NK2dh23holofile_error_category7messageEi" title="Link to this definition"></a><br /></dt>
+<dd><p>Get the error message associated with the given error value. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ev</strong> – The error value. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A string containing the error message. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh17holofile_categoryEv">
+<span id="_CPPv3N2dh17holofile_categoryEv"></span><span id="_CPPv2N2dh17holofile_categoryEv"></span><span id="dh::holofile_category"></span><span class="target" id="namespacedh_1ab1b2b9600f5577370004b299464c6f4f"></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_category</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">holofile_category</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh17holofile_categoryEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Returns the error category for holofile.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A reference to the std::error_category object representing the error category for holofile. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh15make_error_codeE13HolofileError">
+<span id="_CPPv3N2dh15make_error_codeE13HolofileError"></span><span id="_CPPv2N2dh15make_error_codeE13HolofileError"></span><span id="dh::make_error_code__HolofileError"></span><span class="target" id="namespacedh_1aff2bf6a7d14332769bca3ea084fe236b"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_code</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">make_error_code</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2dh13HolofileErrorE" title="dh::HolofileError"><span class="n"><span class="pre">HolofileError</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">e</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh15make_error_codeE13HolofileError" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates an error code object for the specified HolofileError. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>e</strong> – The HolofileError value to create an error code for. </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An std::error_code object representing the specified HolofileError. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Jules Guillou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -43,6 +43,7 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="batched_spsc_queue/index.html">batched_spsc_queue library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="holofile/index.html">holofile library</a></li>
 </ul>
 
         </div>
@@ -86,8 +87,6 @@
 </li>
       <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue12commit_writeEv">dh::BatchedSPSCQueue::commit_write (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue4fillEv">dh::BatchedSPSCQueue::fill (C++ function)</a>
 </li>
       <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue8read_ptrEv">dh::BatchedSPSCQueue::read_ptr (C++ function)</a>
@@ -97,6 +96,62 @@
       <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue4sizeEv">dh::BatchedSPSCQueue::size (C++ function)</a>
 </li>
       <li><a href="batched_spsc_queue/api.html#_CPPv4N2dh16BatchedSPSCQueue9write_ptrEv">dh::BatchedSPSCQueue::write_ptr (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh17holofile_categoryEv">dh::holofile_category (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh23holofile_error_categoryE">dh::holofile_error_category (C++ class)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4NK2dh23holofile_error_category7messageEi">dh::holofile_error_category::message (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4NK2dh23holofile_error_category4nameEv">dh::holofile_error_category::name (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh13HolofileErrorE">dh::HolofileError (C++ enum)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh13HolofileError9EndOfFileE">dh::HolofileError::EndOfFile (C++ enumerator)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh13HolofileError16IncompleteHeaderE">dh::HolofileError::IncompleteHeader (C++ enumerator)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh13HolofileError16InvalidFrameSizeE">dh::HolofileError::InvalidFrameSize (C++ enumerator)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh13HolofileError18InvalidMagicNumberE">dh::HolofileError::InvalidMagicNumber (C++ enumerator)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="holofile/api.html#_CPPv4N2dh13HolofileError14InvalidVersionE">dh::HolofileError::InvalidVersion (C++ enumerator)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeaderE">dh::HolofileHeader (C++ struct)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader14bits_per_pixelE">dh::HolofileHeader::bits_per_pixel (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader10endiannessE">dh::HolofileHeader::endianness (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader11frame_countE">dh::HolofileHeader::frame_count (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader12frame_heightE">dh::HolofileHeader::frame_height (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader11frame_widthE">dh::HolofileHeader::frame_width (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader12magic_numberE">dh::HolofileHeader::magic_number (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader7paddingE">dh::HolofileHeader::padding (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader15total_data_sizeE">dh::HolofileHeader::total_data_size (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileHeader7versionE">dh::HolofileHeader::version (C++ member)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileReaderE">dh::HolofileReader (C++ class)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4NK2dh14HolofileReader6headerEv">dh::HolofileReader::header (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileReader4openERKNSt6stringE">dh::HolofileReader::open (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileReader11read_framesEP7uint8_t6size_t">dh::HolofileReader::read_frames (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh14HolofileReader4seekE6size_t">dh::HolofileReader::seek (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4NK2dh14HolofileReader4tellEv">dh::HolofileReader::tell (C++ function)</a>
+</li>
+      <li><a href="holofile/api.html#_CPPv4N2dh15make_error_codeE13HolofileError">dh::make_error_code (C++ function)</a>
 </li>
   </ul></td>
 </tr></table>

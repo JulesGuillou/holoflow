@@ -19,6 +19,7 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="holofile library" href="../holofile/index.html" />
     <link rel="prev" title="Introduction" href="introduction.html" /> 
 </head>
 
@@ -62,6 +63,7 @@
 </li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../holofile/index.html">holofile library</a></li>
 </ul>
 
         </div>
@@ -103,6 +105,9 @@ The following example demonstrates how to use the <code class="docutils literal 
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;cstdint&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;thread&gt;</span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span>
+
+<span class="cp">#pragma GCC diagnostic push</span>
+<span class="cp">#pragma GCC diagnostic ignored &quot;-Wunused-variable&quot;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">  </span><span class="k">constexpr</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">nb_slots</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000</span><span class="p">;</span>
@@ -156,6 +161,8 @@ The following example demonstrates how to use the <code class="docutils literal 
 <span class="w">  </span><span class="n">enqueue_thread</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
 <span class="w">  </span><span class="n">dequeue_thread</span><span class="p">.</span><span class="n">join</span><span class="p">();</span>
 <span class="p">}</span>
+
+<span class="cp">#pragma GCC diagnostic pop</span>
 </pre></div>
 </div>
  </p>
@@ -328,6 +335,7 @@ The following example demonstrates how to use the <code class="docutils literal 
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../holofile/index.html" class="btn btn-neutral float-right" title="holofile library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
