@@ -236,7 +236,34 @@
 <dl class="cpp class">
 <dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileReaderE">
 <span id="_CPPv3N2dh14HolofileReaderE"></span><span id="_CPPv2N2dh14HolofileReaderE"></span><span id="dh::HolofileReader"></span><span class="target" id="classdh_1_1HolofileReader"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">HolofileReader</span></span></span><a class="headerlink" href="#_CPPv4N2dh14HolofileReaderE" title="Link to this definition"></a><br /></dt>
-<dd><div class="breathe-sectiondef docutils container">
+<dd><p>Class for reading Holofile files. </p>
+<p>The <a class="reference internal" href="#classdh_1_1HolofileReader"><span class="std std-ref">HolofileReader</span></a> class provides a simple interface for reading Holofile files. It allows you to open a Holofile, read the header, seek to a specific frame, and read frames from the file.</p>
+<p>The following example demonstrates how to use the <code class="docutils literal notranslate"><a class="reference internal" href="#classdh_1_1HolofileReader"><span class="std std-ref"><span class="pre">HolofileReader</span></span></a></code> class to read frames from a Holofile: <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;holofile.hh&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Open a holofile</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">HolofileReader</span><span class="o">::</span><span class="n">open</span><span class="p">(</span><span class="s">&quot;example.holo&quot;</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">result</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Error: &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">result</span><span class="p">.</span><span class="n">error</span><span class="p">().</span><span class="n">message</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Read frames</span>
+<span class="w">  </span><span class="k">auto</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">value</span><span class="p">());</span>
+<span class="w">  </span><span class="kt">size_t</span><span class="w"> </span><span class="n">bytes_per_frame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="n">header</span><span class="p">().</span><span class="n">frame_width</span><span class="w"> </span><span class="o">*</span>
+<span class="w">                           </span><span class="n">reader</span><span class="p">.</span><span class="n">header</span><span class="p">().</span><span class="n">frame_height</span><span class="w"> </span><span class="o">*</span>
+<span class="w">                           </span><span class="n">reader</span><span class="p">.</span><span class="n">header</span><span class="p">().</span><span class="n">bits_per_pixel</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="w"> </span><span class="n">frame</span><span class="p">(</span><span class="n">bytes_per_frame</span><span class="p">);</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">reader</span><span class="p">.</span><span class="n">read_frames</span><span class="p">(</span><span class="n">frame</span><span class="p">.</span><span class="n">data</span><span class="p">(),</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Process frame</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<div class="breathe-sectiondef docutils container">
 <p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
 <dl class="cpp function">
 <dt class="sig sig-object cpp" id="_CPPv4NK2dh14HolofileReader6headerEv">
@@ -281,6 +308,13 @@
 <dt class="sig sig-object cpp" id="_CPPv4N2dh14HolofileReader11read_framesEP7uint8_t6size_t">
 <span id="_CPPv3N2dh14HolofileReader11read_framesEP7uint8_t6size_t"></span><span id="_CPPv2N2dh14HolofileReader11read_framesEP7uint8_t6size_t"></span><span id="dh::HolofileReader::read_frames__uint8_tP.s"></span><span class="target" id="classdh_1_1HolofileReader_1adb4e0252b248d08a0d0d84b40e9d7e5d"></span><span class="n"><span class="pre">tl</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">expected</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">error_code</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">read_frames</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">uint8_t</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">data</span></span>, <span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">count</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh14HolofileReader11read_framesEP7uint8_t6size_t" title="Link to this definition"></a><br /></dt>
 <dd><p>Reads the specified number of frames from the Holofile.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This method will lead to undefined behavior if the following constraints are not respected:<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">data</span></code> pointer must point to a buffer with enough space to read <code class="docutils literal notranslate"><span class="pre">count</span></code> frames. </p></li>
+</ul>
+</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -291,7 +325,7 @@
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A <code class="docutils literal notranslate"><span class="pre">tl::expected</span></code> indicating success or failure. If an error occurs, a <code class="docutils literal notranslate"><span class="pre">std::error_code</span></code> is returned. The possible error codes are:<ul class="simple">
 <li><p><code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1aaee846c9d64863e80bb0396e55d7d189a9556e151da49cd4bcf0352857cb33509"><span class="std std-ref"><span class="pre">dh::HolofileError::EndOfFile</span></span></a></code>: The end of the file was reached unexpectedly while reading the frames.</p></li>
-<li><p>Underlying file I/O errors accessed through <code class="docutils literal notranslate"><span class="pre">std::generic_category</span></code>. </p></li>
+<li><p>Underlying file I/O errors accessed through <code class="docutils literal notranslate"><span class="pre">std::generic_category</span></code>.</p></li>
 </ul>
 </p>
 </dd>
