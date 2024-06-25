@@ -3,6 +3,9 @@
 #include <thread>
 #include <vector>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+
 int main() {
   constexpr size_t nb_slots = 1000;
   constexpr size_t enqueue_batch_size = 4;
@@ -55,3 +58,5 @@ int main() {
   enqueue_thread.join();
   dequeue_thread.join();
 }
+
+#pragma GCC diagnostic pop
