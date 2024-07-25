@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>holofile library &mdash; Holoflow 0.1.0 documentation</title>
+  <title>cuAAB library &mdash; Holoflow 0.1.0 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Introduction" href="introduction.html" />
-    <link rel="prev" title="BatchedSPSCQueue API Documentation" href="../batched_spsc_queue/api.html" /> 
+    <link rel="prev" title="Holofile API Documentation" href="../holofile/api.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,12 +46,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../batched_spsc_queue/index.html">batched_spsc_queue library</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">holofile library</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="../holofile/index.html">holofile library</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">cuAAB library</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html">Holofile API Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">cuAAB API Documentation</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../cuaab/index.html">cuAAB library</a></li>
 </ul>
 
         </div>
@@ -68,9 +68,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">holofile library</li>
+      <li class="breadcrumb-item active">cuAAB library</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/holofile/index.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/cuaab/index.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -78,19 +78,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="holofile-library">
-<h1>holofile library<a class="headerlink" href="#holofile-library" title="Link to this heading"></a></h1>
+  <section id="cuaab-library">
+<h1>cuAAB library<a class="headerlink" href="#cuaab-library" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="api.html">Holofile API Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh13HolofileErrorE"><code class="docutils literal notranslate"><span class="pre">HolofileError</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh14HolofileHeaderE"><code class="docutils literal notranslate"><span class="pre">HolofileHeader</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh14HolofileReaderE"><code class="docutils literal notranslate"><span class="pre">HolofileReader</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh23holofile_error_categoryE"><code class="docutils literal notranslate"><span class="pre">holofile_error_category</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh17holofile_categoryEv"><code class="docutils literal notranslate"><span class="pre">holofile_category()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh15make_error_codeE13HolofileError"><code class="docutils literal notranslate"><span class="pre">make_error_code()</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">cuAAB API Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh13cuaabStatus_tE"><code class="docutils literal notranslate"><span class="pre">cuaabStatus_t</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh13cuaabHandle_tE"><code class="docutils literal notranslate"><span class="pre">cuaabHandle_t</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh11cuaabCreateEP13cuaabHandle_t"><code class="docutils literal notranslate"><span class="pre">cuaabCreate()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh12cuaabDestroyE13cuaabHandle_t"><code class="docutils literal notranslate"><span class="pre">cuaabDestroy()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh14cuaabSetStreamE13cuaabHandle_t12cudaStream_t"><code class="docutils literal notranslate"><span class="pre">cuaabSetStream()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#_CPPv4N2dh8cuaabAABE13cuaabHandle_tPKfPfii"><code class="docutils literal notranslate"><span class="pre">cuaabAAB()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -101,7 +101,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="../batched_spsc_queue/api.html" class="btn btn-neutral float-left" title="BatchedSPSCQueue API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../holofile/api.html" class="btn btn-neutral float-left" title="Holofile API Documentation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="introduction.html" class="btn btn-neutral float-right" title="Introduction" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>cuAAB API Documentation &mdash; Holoflow 0.1.0 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=01f34227"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Introduction" href="introduction.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Holoflow
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../batched_spsc_queue/index.html">batched_spsc_queue library</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../holofile/index.html">holofile library</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">cuAAB library</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">cuAAB API Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_tE"><code class="docutils literal notranslate"><span class="pre">cuaabStatus_t</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_t13CUAAB_SUCCESSE"><code class="docutils literal notranslate"><span class="pre">cuaabStatus_t::CUAAB_SUCCESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_t20CUAAB_INTERNAL_ERRORE"><code class="docutils literal notranslate"><span class="pre">cuaabStatus_t::CUAAB_INTERNAL_ERROR</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_t20CUAAB_INVALID_STRIDEE"><code class="docutils literal notranslate"><span class="pre">cuaabStatus_t::CUAAB_INVALID_STRIDE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_t19CUAAB_INVALID_BATCHE"><code class="docutils literal notranslate"><span class="pre">cuaabStatus_t::CUAAB_INVALID_BATCH</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh13cuaabHandle_tE"><code class="docutils literal notranslate"><span class="pre">cuaabHandle_t</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh11cuaabCreateEP13cuaabHandle_t"><code class="docutils literal notranslate"><span class="pre">cuaabCreate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh12cuaabDestroyE13cuaabHandle_t"><code class="docutils literal notranslate"><span class="pre">cuaabDestroy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh14cuaabSetStreamE13cuaabHandle_t12cudaStream_t"><code class="docutils literal notranslate"><span class="pre">cuaabSetStream()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#_CPPv4N2dh8cuaabAABE13cuaabHandle_tPKfPfii"><code class="docutils literal notranslate"><span class="pre">cuaabAAB()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Holoflow</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">cuAAB library</a></li>
+      <li class="breadcrumb-item active">cuAAB API Documentation</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/cuaab/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="cuaab-api-documentation">
+<h1>cuAAB API Documentation<a class="headerlink" href="#cuaab-api-documentation" title="Link to this heading"></a></h1>
+<dl class="cpp enum">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13cuaabStatus_tE">
+<span id="_CPPv3N2dh13cuaabStatus_tE"></span><span id="_CPPv2N2dh13cuaabStatus_tE"></span><span class="target" id="namespacedh_1a7133b09415a916a0156caf26e67b4e9a"></span><span class="k"><span class="pre">enum</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cuaabStatus_t</span></span></span><a class="headerlink" href="#_CPPv4N2dh13cuaabStatus_tE" title="Link to this definition"></a><br /></dt>
+<dd><p>Status codes for the CUAAB library. </p>
+<p>All cuaab functions return a status code of this type. </p>
+<p><em>Values:</em></p>
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13cuaabStatus_t13CUAAB_SUCCESSE">
+<span id="_CPPv3N2dh13cuaabStatus_t13CUAAB_SUCCESSE"></span><span id="_CPPv2N2dh13cuaabStatus_t13CUAAB_SUCCESSE"></span><span class="target" id="namespacedh_1a7133b09415a916a0156caf26e67b4e9aa5a97402919965b3a0651a2c277ccf35a"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CUAAB_SUCCESS</span></span></span><a class="headerlink" href="#_CPPv4N2dh13cuaabStatus_t13CUAAB_SUCCESSE" title="Link to this definition"></a><br /></dt>
+<dd><p>The operation was successful. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13cuaabStatus_t20CUAAB_INTERNAL_ERRORE">
+<span id="_CPPv3N2dh13cuaabStatus_t20CUAAB_INTERNAL_ERRORE"></span><span id="_CPPv2N2dh13cuaabStatus_t20CUAAB_INTERNAL_ERRORE"></span><span class="target" id="namespacedh_1a7133b09415a916a0156caf26e67b4e9aad446e4e2ec9d8318ac90ec2019a463a0"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CUAAB_INTERNAL_ERROR</span></span></span><a class="headerlink" href="#_CPPv4N2dh13cuaabStatus_t20CUAAB_INTERNAL_ERRORE" title="Link to this definition"></a><br /></dt>
+<dd><p>Driver or internal error occurred. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13cuaabStatus_t20CUAAB_INVALID_STRIDEE">
+<span id="_CPPv3N2dh13cuaabStatus_t20CUAAB_INVALID_STRIDEE"></span><span id="_CPPv2N2dh13cuaabStatus_t20CUAAB_INVALID_STRIDEE"></span><span class="target" id="namespacedh_1a7133b09415a916a0156caf26e67b4e9aa17088b5996fc9ca968f39fc14e629203"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CUAAB_INVALID_STRIDE</span></span></span><a class="headerlink" href="#_CPPv4N2dh13cuaabStatus_t20CUAAB_INVALID_STRIDEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Stride is invalid. </p>
+</dd></dl>
+
+<dl class="cpp enumerator">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13cuaabStatus_t19CUAAB_INVALID_BATCHE">
+<span id="_CPPv3N2dh13cuaabStatus_t19CUAAB_INVALID_BATCHE"></span><span id="_CPPv2N2dh13cuaabStatus_t19CUAAB_INVALID_BATCHE"></span><span class="target" id="namespacedh_1a7133b09415a916a0156caf26e67b4e9aab82cdad98d0870a7198966585152d6b2"></span><span class="k"><span class="pre">enumerator</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">CUAAB_INVALID_BATCH</span></span></span><a class="headerlink" href="#_CPPv4N2dh13cuaabStatus_t19CUAAB_INVALID_BATCHE" title="Link to this definition"></a><br /></dt>
+<dd><p>Batch is invalid. </p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh13cuaabHandle_tE">
+<span id="_CPPv3N2dh13cuaabHandle_tE"></span><span id="_CPPv2N2dh13cuaabHandle_tE"></span><span id="dh::cuaabHandle_t"></span><span class="target" id="namespacedh_1abd96a3c1c4398863d2341586eb9a38da"></span><span class="k"><span class="pre">typedef</span></span><span class="w"> </span><span class="n"><span class="pre">cuaabContext</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cuaabHandle_t</span></span></span><a class="headerlink" href="#_CPPv4N2dh13cuaabHandle_tE" title="Link to this definition"></a><br /></dt>
+<dd><p>Handle to the CUAAB library context. </p>
+<p>This handle is used to refer to the CUAAB library context in all CUAAB functions. The context is created by <code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1ab5611d941634588aca9608ef64796d87"><span class="std std-ref"><span class="pre">cuaabCreate()</span></span></a></code> and destroyed by <code class="docutils literal notranslate"><a class="reference internal" href="#namespacedh_1a62386e19945dcffda31bf46c15ebe793"><span class="std std-ref"><span class="pre">cuaabDestroy()</span></span></a></code>. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh11cuaabCreateEP13cuaabHandle_t">
+<span id="_CPPv3N2dh11cuaabCreateEP13cuaabHandle_t"></span><span id="_CPPv2N2dh11cuaabCreateEP13cuaabHandle_t"></span><span id="dh::cuaabCreate__cuaabHandle_tP"></span><span class="target" id="namespacedh_1ab5611d941634588aca9608ef64796d87"></span><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_tE" title="dh::cuaabStatus_t"><span class="n"><span class="pre">cuaabStatus_t</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cuaabCreate</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2dh13cuaabHandle_tE" title="dh::cuaabHandle_t"><span class="n"><span class="pre">cuaabHandle_t</span></span></a><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">handle</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh11cuaabCreateEP13cuaabHandle_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Create a new CUAAB library context. </p>
+<p>This function creates a new CUAAB library context and returns a handle to it.</p>
+<p>
+The following example demonstrates how to use this function to create a new CUAAB library context: <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cuaab.hh&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Create a new CUAAB library context.</span>
+<span class="w">  </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabHandle_t</span><span class="w"> </span><span class="n">handle</span><span class="p">;</span>
+<span class="w">  </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabStatus_t</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">handle</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">CUAAB_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Failed to create CUAAB library context: &quot;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabGetErrorString</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Use it here...</span>
+
+<span class="w">  </span><span class="c1">// Destroy the CUAAB library context.</span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabDestroy</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">CUAAB_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Failed to destroy CUAAB library context: &quot;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabGetErrorString</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the call to this function fails, one should not call <code class="docutils literal notranslate"><span class="pre">cuaabDestroy</span></code> on the handle.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function will lead to undefined behaviour if the handle pointer points to an invalid handle location. It must be non-null and the memory it points to muist be big enough to hold a <code class="docutils literal notranslate"><span class="pre">cuAABHandle_t</span></code>. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> – Pointer to the handle to the new CUAAB library context.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A cuaabStatus_t status code indicating the result of the operation. The possible status codes are:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_SUCCESS</span></code> if no errors happened.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_INTERNAL_ERROR</span></code> if the call to malloc to allocate memory for the cuaabContext fails.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh12cuaabDestroyE13cuaabHandle_t">
+<span id="_CPPv3N2dh12cuaabDestroyE13cuaabHandle_t"></span><span id="_CPPv2N2dh12cuaabDestroyE13cuaabHandle_t"></span><span id="dh::cuaabDestroy__cuaabHandle_t"></span><span class="target" id="namespacedh_1a62386e19945dcffda31bf46c15ebe793"></span><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_tE" title="dh::cuaabStatus_t"><span class="n"><span class="pre">cuaabStatus_t</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cuaabDestroy</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2dh13cuaabHandle_tE" title="dh::cuaabHandle_t"><span class="n"><span class="pre">cuaabHandle_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">handle</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh12cuaabDestroyE13cuaabHandle_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Destroy a CUAAB library context. </p>
+<p>This function destroys a CUAAB library context and frees all resources associated with it.</p>
+<p>
+The following example demonstrates how to use this function to destroy a CUAAB library context: <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cuaab.hh&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Create a new CUAAB library context.</span>
+<span class="w">  </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabHandle_t</span><span class="w"> </span><span class="n">handle</span><span class="p">;</span>
+<span class="w">  </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabStatus_t</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">handle</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">CUAAB_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Failed to create CUAAB library context: &quot;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabGetErrorString</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Use it here...</span>
+
+<span class="w">  </span><span class="c1">// Destroy the CUAAB library context.</span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabDestroy</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">CUAAB_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Failed to destroy CUAAB library context: &quot;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabGetErrorString</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> is considered as a valid entry for this function. In which case the function will do nothing.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function will lead to undefined behaviour if the handle is not properly initialized. </p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>handle</strong> – Handle to the CUAAB library context to destroy.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A cuaabStatus_t status code indicating the result of the operation. The possible status codes are:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_SUCCESS</span></code> if no errors happened.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh14cuaabSetStreamE13cuaabHandle_t12cudaStream_t">
+<span id="_CPPv3N2dh14cuaabSetStreamE13cuaabHandle_t12cudaStream_t"></span><span id="_CPPv2N2dh14cuaabSetStreamE13cuaabHandle_t12cudaStream_t"></span><span id="dh::cuaabSetStream__cuaabHandle_t.cudaStream_t"></span><span class="target" id="namespacedh_1a1f1b427743a505c867f9419296b56891"></span><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_tE" title="dh::cuaabStatus_t"><span class="n"><span class="pre">cuaabStatus_t</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cuaabSetStream</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2dh13cuaabHandle_tE" title="dh::cuaabHandle_t"><span class="n"><span class="pre">cuaabHandle_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">handle</span></span>, <span class="n"><span class="pre">cudaStream_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stream</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh14cuaabSetStreamE13cuaabHandle_t12cudaStream_t" title="Link to this definition"></a><br /></dt>
+<dd><p>Set the stream for the given handle. </p>
+<p>This function sets the <code class="docutils literal notranslate"><span class="pre">cudaStream_t</span></code> to use for operations on the given <code class="docutils literal notranslate"><span class="pre">cuaabHandle_t</span></code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function will lead to undefined behaviour if the following conditions are not met:<ul class="simple">
+<li><p>The handle is properly initialized.</p></li>
+<li><p>The handle is not being used in any other operation.</p></li>
+<li><p>The stream is a valid CUDA stream. </p></li>
+</ul>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – Handle to the CUAAB library context. </p></li>
+<li><p><strong>stream</strong> – CUDA stream to use for operations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A cuaabStatus_t status code indicating the result of the operation. The possible status codes are:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_SUCCESS</span></code> if no errors happened.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N2dh8cuaabAABE13cuaabHandle_tPKfPfii">
+<span id="_CPPv3N2dh8cuaabAABE13cuaabHandle_tPKfPfii"></span><span id="_CPPv2N2dh8cuaabAABE13cuaabHandle_tPKfPfii"></span><span id="dh::cuaabAAB__cuaabHandle_t.floatCP.floatP.i.i"></span><span class="target" id="namespacedh_1a20c424812b35f1e03933a303b0dae79b"></span><a class="reference internal" href="#_CPPv4N2dh13cuaabStatus_tE" title="dh::cuaabStatus_t"><span class="n"><span class="pre">cuaabStatus_t</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">dh</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">cuaabAAB</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4N2dh13cuaabHandle_tE" title="dh::cuaabHandle_t"><span class="n"><span class="pre">cuaabHandle_t</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">handle</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">input</span></span>, <span class="kt"><span class="pre">float</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">output</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">stride</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">batch</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N2dh8cuaabAABE13cuaabHandle_tPKfPfii" title="Link to this definition"></a><br /></dt>
+<dd><p>Perform a CUAAB operation. </p>
+<p>This function will perform Average Along Batch (AAB) operation on the input tensor and return the result in the output tensor.</p>
+<p>
+The following example demonstrates how to use this function to perform an AAB operation on 10 vectors of size 10 (or 10 matrices of size 5x2, etc…): <div class="highlight-cpp notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;cuaab.hh&quot;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span>
+
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">BATCH</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+<span class="k">constexpr</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Create a new CUAAB library context.</span>
+<span class="w">  </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabHandle_t</span><span class="w"> </span><span class="n">handle</span><span class="p">;</span>
+<span class="w">  </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabStatus_t</span><span class="w"> </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabCreate</span><span class="p">(</span><span class="o">&amp;</span><span class="n">handle</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">CUAAB_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Failed to create CUAAB library context: &quot;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabGetErrorString</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Use it here...</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">host_input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="w">  </span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="n">host_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span>
+<span class="w">  </span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">BATCH</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="w">  </span><span class="n">cudaMallocHost</span><span class="p">(</span><span class="o">&amp;</span><span class="n">host_input</span><span class="p">,</span><span class="w"> </span><span class="n">BATCH</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="w">  </span><span class="n">cudaMalloc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+<span class="w">  </span><span class="n">cudaMallocHost</span><span class="p">(</span><span class="o">&amp;</span><span class="n">host_output</span><span class="p">,</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">));</span>
+
+<span class="w">  </span><span class="c1">// Fill input tensor with [0, 1, 2, 3, ..., n] [n + 1, n + 2, ..., 2n] ...</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">BATCH</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">STRIDE</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">host_input</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Host to device memory copy.</span>
+<span class="w">  </span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">host_input</span><span class="p">,</span><span class="w"> </span><span class="n">BATCH</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span>
+<span class="w">             </span><span class="n">cudaMemcpyHostToDevice</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Perform the AAB operation.</span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cuaabAAB</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span><span class="w"> </span><span class="n">input</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">STRIDE</span><span class="p">,</span><span class="w"> </span><span class="n">BATCH</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">CUAAB_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Failed to perform AAB operation: &quot;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabGetErrorString</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Device to host memory copy.</span>
+<span class="w">  </span><span class="n">cudaMemcpy</span><span class="p">(</span><span class="n">host_output</span><span class="p">,</span><span class="w"> </span><span class="n">output</span><span class="p">,</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">),</span>
+<span class="w">             </span><span class="n">cudaMemcpyDeviceToHost</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Check the output tensor.</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">STRIDE</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// [0 * stride + i + 1 * stride + i + ... + (batch - 1) * stride + i] /</span>
+<span class="w">    </span><span class="c1">// batch = [(0 + 1 + ... + batch - 1) * stride + batch * i] / batch = (batch</span>
+<span class="w">    </span><span class="c1">// - 1) / 2 * stride + i</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">BATCH</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">2.0f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">STRIDE</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">&gt;</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">host_output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">expected</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Output tensor mismatch at index &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;: expected &quot;</span>
+<span class="w">                </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">expected</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;, got &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">host_output</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Destroy the CUAAB library context.</span>
+<span class="w">  </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabDestroy</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">status</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">CUAAB_SUCCESS</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">cerr</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Failed to destroy CUAAB library context: &quot;</span>
+<span class="w">              </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">dh</span><span class="o">::</span><span class="n">cuaabGetErrorString</span><span class="p">(</span><span class="n">status</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">EXIT_FAILURE</span><span class="p">;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This function will lead to undefined behaviour if the follwing conditions are not met:<ul class="simple">
+<li><p>The handle is properly initialized.</p></li>
+<li><p>The input must be a valid pointer to a memory location with enough space to hold <code class="docutils literal notranslate"><span class="pre">stride</span> <span class="pre">*</span> <span class="pre">batch</span></code> elements.</p></li>
+<li><p>The output must be a valid pointer to a memory location with enough space to hold <code class="docutils literal notranslate"><span class="pre">stride</span></code> elements. </p></li>
+</ul>
+</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>handle</strong> – Handle to the CUAAB library context. </p></li>
+<li><p><strong>input</strong> – Pointer to the input data. </p></li>
+<li><p><strong>output</strong> – Pointer to the output data. </p></li>
+<li><p><strong>stride</strong> – The distance in elements between the same position in consecutive batches. </p></li>
+<li><p><strong>batch</strong> – The number of batches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A cuaabStatus_t status code indicating the result of the operation. The possible status codes are:<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_SUCCESS</span></code> if no errors happened.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_INVALID_STRIDE</span></code> if the stride is invalid (less or equal to zero).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_INVALID_BATCH</span></code> if the batch is invalid (less or equal to zero).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CUAAB_INTERNAL_ERROR</span></code> if a driver or internal error occurred.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Jules Guillou.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
