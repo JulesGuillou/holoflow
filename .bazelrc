@@ -1,1 +1,10 @@
 try-import %workspace%/user.bazelrc
+
+# Address Sanitizer
+build:asan --copt=-g
+build:asan --copt=-fno-omit-frame-pointer
+build:asan --copt=-fsanitize=address
+build:asan --copt=-DADDRESS_SANITIZER
+build:asan --linkopt=-fsanitize=address
+build:asan --action_env=ASAN_OPTIONS=detect_leaks=1:color=always:protect_shadow_gap=0
+test:asan --test_arg=--test_env=ASAN_OPTIONS=detect_leaks=1:color=always:protect_shadow_gap=0
